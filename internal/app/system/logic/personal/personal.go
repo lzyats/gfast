@@ -9,9 +9,12 @@ package personal
 
 import (
 	"context"
+	"strings"
+
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/grand"
 	"github.com/tiger1103/gfast/v3/api/v1/system"
 	"github.com/tiger1103/gfast/v3/internal/app/system/dao"
@@ -36,28 +39,46 @@ func New() *sPersonal {
 
 func (s *sPersonal) GetPersonalInfo(ctx context.Context, req *system.PersonalInfoReq) (res *system.PersonalInfoRes, err error) {
 	res = new(system.PersonalInfoRes)
-	userId := service.Context().GetUserId(ctx)
-	res.User, err = service.SysUser().GetUserInfoById(ctx, userId)
-	var dept *entity.SysDept
-	dept, err = service.SysDept().GetByDeptId(ctx, res.User.DeptId)
-	res.DeptName = dept.DeptName
-	allRoles, err := service.SysRole().GetRoleList(ctx)
-	roles, err := service.SysUser().GetAdminRole(ctx, userId, allRoles)
-	name := make([]string, len(roles))
-	roleIds := make([]uint, len(roles))
-	for k, v := range roles {
-		name[k] = v.Name
-		roleIds[k] = v.Id
+	userId := currentUserID(ctx)
+	if userId == 0 {
+		return nil, gerror.New("登录状态已失效，请重新登录")
 	}
-	res.Roles = name
+
+	res.User, err = service.SysUser().GetUserInfoById(ctx, userId)
 	if err != nil {
 		return
 	}
+	if res.User == nil {
+		return nil, gerror.New("当前登录用户不存在")
+	}
+
+	var dept *entity.SysDept
+	dept, err = service.SysDept().GetByDeptId(ctx, res.User.DeptId)
+	if err != nil {
+		return
+	}
+	if dept != nil {
+		res.DeptName = dept.DeptName
+	}
+
+	allRoles, err := service.SysRole().GetRoleList(ctx)
+	if err != nil {
+		return
+	}
+	roles, err := service.SysUser().GetAdminRole(ctx, userId, allRoles)
+	if err != nil {
+		return
+	}
+	name := make([]string, len(roles))
+	for k, v := range roles {
+		name[k] = v.Name
+	}
+	res.Roles = name
 	return
 }
 
 func (s *sPersonal) EditPersonal(ctx context.Context, req *system.PersonalEditReq) (user *model.LoginUserRes, err error) {
-	userId := service.Context().GetUserId(ctx)
+	userId := currentUserID(ctx)
 	err = service.SysUser().UserNameOrMobileExists(ctx, "", req.Mobile, int64(userId))
 	if err != nil {
 		return
@@ -83,7 +104,7 @@ func (s *sPersonal) EditPersonal(ctx context.Context, req *system.PersonalEditRe
 }
 
 func (s *sPersonal) ResetPwdPersonal(ctx context.Context, req *system.PersonalResetPwdReq) (res *system.PersonalResetPwdRes, err error) {
-	userId := service.Context().GetUserId(ctx)
+	userId := currentUserID(ctx)
 	salt := grand.S(10)
 	password := libUtils.EncryptPassword(req.Password, salt)
 	err = g.Try(ctx, func(ctx context.Context) {
@@ -97,7 +118,7 @@ func (s *sPersonal) ResetPwdPersonal(ctx context.Context, req *system.PersonalRe
 }
 
 func (s *sPersonal) GenerateGoogleAuth(ctx context.Context, req *system.PersonalGoogleGenerateReq) (res *system.PersonalGoogleGenerateRes, err error) {
-	userId := service.Context().GetUserId(ctx)
+	userId := currentUserID(ctx)
 	user, err := service.SysUser().GetUserById(ctx, userId)
 	if err != nil {
 		return nil, err
@@ -116,7 +137,7 @@ func (s *sPersonal) BindGoogleAuth(ctx context.Context, req *system.PersonalGoog
 	if !libUtils.VerifyTOTP(req.Secret, req.Code) {
 		return nil, gerror.New("Google验证码错误")
 	}
-	userId := service.Context().GetUserId(ctx)
+	userId := currentUserID(ctx)
 	_, err = dao.SysUser.Ctx(ctx).WherePri(userId).Update(do.SysUser{
 		GoogleSecret: req.Secret,
 		GoogleStatus: 1,
@@ -128,7 +149,7 @@ func (s *sPersonal) BindGoogleAuth(ctx context.Context, req *system.PersonalGoog
 }
 
 func (s *sPersonal) UnbindGoogleAuth(ctx context.Context, req *system.PersonalGoogleUnbindReq) (res *system.PersonalGoogleUnbindRes, err error) {
-	userId := service.Context().GetUserId(ctx)
+	userId := currentUserID(ctx)
 	user, err := service.SysUser().GetUserById(ctx, userId)
 	if err != nil {
 		return nil, err
@@ -144,4 +165,24 @@ func (s *sPersonal) UnbindGoogleAuth(ctx context.Context, req *system.PersonalGo
 		return nil, err
 	}
 	return &system.PersonalGoogleUnbindRes{}, nil
+}
+
+func currentUserID(ctx context.Context) uint64 {
+	userID := service.Context().GetUserId(ctx)
+	if userID > 0 {
+		return userID
+	}
+	r := g.RequestFromCtx(ctx)
+	if r == nil {
+		return 0
+	}
+	token := service.GfToken().GetRequestToken(r)
+	if strings.TrimSpace(token) == "" {
+		return 0
+	}
+	_, key, err := service.GfToken().GetTokenData(ctx, token)
+	if err != nil {
+		return 0
+	}
+	return gconv.Uint64(strings.Split(key, "-")[0])
 }
