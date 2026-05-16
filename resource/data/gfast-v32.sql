@@ -229,77 +229,77 @@ CREATE TABLE `sys_dict_data`  (
 -- ----------------------------
 -- Records of sys_dict_data
 -- ----------------------------
-INSERT INTO `sys_dict_data` VALUES (200000000001, 0, '男', '1', 'sys_user_sex', '', '', 0, 200000000001, 200000000031, 200000000002, '备注信息', '2022-04-18 16:46:22', NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000002, 0, '女', '2', 'sys_user_sex', '', '', 0, 200000000001, 200000000031, 200000000031, '备注信息', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000003, 0, '保密', '0', 'sys_user_sex', '', '', 200000000001, 200000000001, 200000000031, 200000000031, '备注信息', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000024, 0, '频道页', '1', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '作为频道页，不可作为栏目发布文章，可添加下级分类', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (200000000025, 0, '发布栏目', '2', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '作为发布栏目，可添加文章', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (200000000026, 0, '跳转栏目', '3', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '不直接发布内容，用于跳转页面', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (200000000027, 0, '单页栏目', '4', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '单页面模式，分类直接显示为文章', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (200000000028, 0, '正常', '0', 'sys_job_status', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000029, 0, '暂停', '1', 'sys_job_status', '', 'default', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000030, 0, '默认', 'DEFAULT', 'sys_job_group', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000031, 0, '系统', 'SYSTEM', 'sys_job_group', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000032, 0, '成功', '1', 'admin_login_status', '', 'default', 0, 200000000001, 200000000031, 200000000031, '', NULL, '2022-09-16 15:26:01');
-INSERT INTO `sys_dict_data` VALUES (200000000033, 0, '失败', '0', 'admin_login_status', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, '2022-09-16 15:26:01');
-INSERT INTO `sys_dict_data` VALUES (200000000034, 0, '成功', '1', 'sys_oper_log_status', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000035, 0, '失败', '0', 'sys_oper_log_status', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000036, 0, '重复执行', '1', 'sys_job_policy', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000037, 0, '执行一次', '2', 'sys_job_policy', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000038, 0, '显示', '0', 'sys_show_hide', NULL, 'default', 200000000001, 200000000001, 200000000031, 0, NULL, NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000039, 0, '隐藏', '1', 'sys_show_hide', NULL, 'default', 0, 200000000001, 200000000031, 0, NULL, NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000040, 0, '正常', '1', 'sys_normal_disable', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000041, 0, '停用', '0', 'sys_normal_disable', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000049, 0, '是', '1', 'sys_yes_no', '', '', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000050, 0, '否', '0', 'sys_yes_no', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000051, 0, '已发布', '1', 'cms_article_pub_type', '', '', 200000000001, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000054, 0, '未发布', '0', 'cms_article_pub_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000055, 0, '置顶', '1', 'cms_article_attr', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000056, 0, '推荐', '2', 'cms_article_attr', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000057, 0, '普通文章', '0', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000058, 0, '跳转链接', '1', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000059, 0, 'cms模型', '6', 'cms_cate_models', '', '', 0, 200000000001, 200000000001, 200000000001, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000061, 0, '政府工作目标', '1', 'gov_cate_models', '', '', 0, 200000000001, 200000000002, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000062, 0, '系统后台', 'sys_admin', 'menu_module_type', '', '', 200000000001, 200000000001, 200000000002, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000063, 0, '政务工作', 'gov_work', 'menu_module_type', '', '', 0, 200000000001, 200000000002, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000064, 0, '幻灯', '3', 'cms_article_attr', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000065, 0, '[work]测试业务表', 'wf_news', 'flow_type', '', '', 0, 200000000001, 200000000002, 200000000002, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000066, 0, '回退修改', '-1', 'flow_status', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000067, 0, '保存中', '0', 'flow_status', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000068, 0, '流程中', '1', 'flow_status', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000069, 0, '审批通过', '2', 'flow_status', '', '', 0, 200000000001, 200000000031, 200000000002, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000070, 200000000002, '发布栏目', '2', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000071, 200000000003, '跳转栏目', '3', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000072, 200000000004, '单页栏目', '4', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000073, 200000000002, '置顶', '1', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000074, 200000000003, '幻灯', '2', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000075, 200000000004, '推荐', '3', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000076, 200000000001, '一般', '0', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000077, 200000000001, '频道页', '1', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000078, 0, '普通', '0', 'flow_level', '', '', 0, 200000000001, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_data` VALUES (200000000079, 0, '加急', '1', 'flow_level', '', '', 0, 200000000001, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_data` VALUES (200000000080, 0, '紧急', '2', 'flow_level', '', '', 0, 200000000001, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_data` VALUES (200000000081, 0, '特急', '3', 'flow_level', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, '2021-07-20 08:55:25');
-INSERT INTO `sys_dict_data` VALUES (200000000082, 0, '频道页', '1', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000083, 0, '发布栏目', '2', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000084, 0, '跳转栏目', '3', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000085, 0, '单页栏目', '4', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000087, 0, '[cms]文章表', 'cms_news', 'flow_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (200000000091, 0, '测试一下', '666', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-03 17:04:12', '2021-08-03 17:04:12');
-INSERT INTO `sys_dict_data` VALUES (200000000092, 0, '缓存测试222', '33333', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2021-08-03 17:16:45', '2021-08-03 17:19:41');
-INSERT INTO `sys_dict_data` VALUES (200000000093, 0, '缓存测试222', '11111', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2021-08-03 17:26:14', '2021-08-03 17:26:26');
-INSERT INTO `sys_dict_data` VALUES (200000000094, 0, '1折', '10', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 11:59:38', '2021-08-14 11:59:38');
-INSERT INTO `sys_dict_data` VALUES (200000000095, 0, '5折', '50', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 11:59:49', '2021-08-14 11:59:49');
-INSERT INTO `sys_dict_data` VALUES (200000000096, 0, '8折', '80', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 12:00:00', '2021-08-14 12:00:00');
-INSERT INTO `sys_dict_data` VALUES (200000000097, 0, '9折', '90', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 12:00:07', '2021-08-14 12:00:07');
-INSERT INTO `sys_dict_data` VALUES (200000000098, 0, '无折扣', '100', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 12:00:16', '2021-08-14 12:00:16');
-INSERT INTO `sys_dict_data` VALUES (200000000099, 0, '不显示', 'none', 'cms_nav_position', '', '', 200000000001, 200000000001, 200000000022, 0, '', '2021-08-31 15:37:35', '2021-08-31 15:37:35');
-INSERT INTO `sys_dict_data` VALUES (200000000100, 0, '顶部导航', 'top', 'cms_nav_position', '', '', 0, 200000000001, 200000000022, 0, '', '2021-08-31 15:37:57', '2021-08-31 15:37:57');
-INSERT INTO `sys_dict_data` VALUES (200000000101, 0, '底部导航', 'bottom', 'cms_nav_position', '', '', 0, 200000000001, 200000000022, 0, '', '2021-08-31 15:38:08', '2021-08-31 15:38:08');
-INSERT INTO `sys_dict_data` VALUES (200000000102, 0, '读取', 'GET', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:10', '2022-12-23 19:03:02');
-INSERT INTO `sys_dict_data` VALUES (200000000103, 0, '新增', 'POST', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:22', '2022-12-23 19:03:10');
-INSERT INTO `sys_dict_data` VALUES (200000000104, 0, '修改', 'PUT', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:32', '2022-12-23 19:03:19');
-INSERT INTO `sys_dict_data` VALUES (200000000105, 0, '删除', 'DELETE', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:44', '2022-12-23 19:03:27');
+INSERT INTO `sys_dict_data` VALUES (1, 0, '男', '1', 'sys_user_sex', '', '', 0, 1, 200000000031, 200000000002, '备注信息', '2022-04-18 16:46:22', NULL);
+INSERT INTO `sys_dict_data` VALUES (2, 0, '女', '2', 'sys_user_sex', '', '', 0, 1, 200000000031, 200000000031, '备注信息', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (3, 0, '保密', '0', 'sys_user_sex', '', '', 1, 1, 200000000031, 200000000031, '备注信息', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (24, 0, '频道页', '1', 'cms_category_type', '', '', 0, 1, 200000000031, 200000000031, '作为频道页，不可作为栏目发布文章，可添加下级分类', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (25, 0, '发布栏目', '2', 'cms_category_type', '', '', 0, 1, 200000000031, 200000000031, '作为发布栏目，可添加文章', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (26, 0, '跳转栏目', '3', 'cms_category_type', '', '', 0, 1, 200000000031, 200000000031, '不直接发布内容，用于跳转页面', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (27, 0, '单页栏目', '4', 'cms_category_type', '', '', 0, 1, 200000000031, 200000000031, '单页面模式，分类直接显示为文章', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (28, 0, '正常', '0', 'sys_job_status', '', 'default', 1, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (29, 0, '暂停', '1', 'sys_job_status', '', 'default', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (30, 0, '默认', 'DEFAULT', 'sys_job_group', '', 'default', 1, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (31, 0, '系统', 'SYSTEM', 'sys_job_group', '', 'default', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (32, 0, '成功', '1', 'admin_login_status', '', 'default', 0, 1, 200000000031, 200000000031, '', NULL, '2022-09-16 15:26:01');
+INSERT INTO `sys_dict_data` VALUES (33, 0, '失败', '0', 'admin_login_status', '', 'default', 0, 1, 200000000031, 0, '', NULL, '2022-09-16 15:26:01');
+INSERT INTO `sys_dict_data` VALUES (34, 0, '成功', '1', 'sys_oper_log_status', '', 'default', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (35, 0, '失败', '0', 'sys_oper_log_status', '', 'default', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (36, 0, '重复执行', '1', 'sys_job_policy', '', 'default', 1, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (37, 0, '执行一次', '2', 'sys_job_policy', '', 'default', 1, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (38, 0, '显示', '0', 'sys_show_hide', NULL, 'default', 1, 1, 200000000031, 0, NULL, NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (39, 0, '隐藏', '1', 'sys_show_hide', NULL, 'default', 0, 1, 200000000031, 0, NULL, NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (40, 0, '正常', '1', 'sys_normal_disable', '', 'default', 1, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (41, 0, '停用', '0', 'sys_normal_disable', '', 'default', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (49, 0, '是', '1', 'sys_yes_no', '', '', 1, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (50, 0, '否', '0', 'sys_yes_no', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (51, 0, '已发布', '1', 'cms_article_pub_type', '', '', 1, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (54, 0, '未发布', '0', 'cms_article_pub_type', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (55, 0, '置顶', '1', 'cms_article_attr', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (56, 0, '推荐', '2', 'cms_article_attr', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (57, 0, '普通文章', '0', 'cms_article_type', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (58, 0, '跳转链接', '1', 'cms_article_type', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (59, 0, 'cms模型', '6', 'cms_cate_models', '', '', 0, 1, 200000000001, 200000000001, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (61, 0, '政府工作目标', '1', 'gov_cate_models', '', '', 0, 1, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (62, 0, '系统后台', 'sys_admin', 'menu_module_type', '', '', 1, 1, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (63, 0, '政务工作', 'gov_work', 'menu_module_type', '', '', 0, 1, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (64, 0, '幻灯', '3', 'cms_article_attr', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (65, 0, '[work]测试业务表', 'wf_news', 'flow_type', '', '', 0, 1, 200000000002, 200000000002, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (66, 0, '回退修改', '-1', 'flow_status', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (67, 0, '保存中', '0', 'flow_status', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (68, 0, '流程中', '1', 'flow_status', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (69, 0, '审批通过', '2', 'flow_status', '', '', 0, 1, 200000000031, 200000000002, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (70, 2, '发布栏目', '2', 'sys_blog_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (71, 3, '跳转栏目', '3', 'sys_blog_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (72, 4, '单页栏目', '4', 'sys_blog_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (73, 2, '置顶', '1', 'sys_log_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (74, 3, '幻灯', '2', 'sys_log_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (75, 4, '推荐', '3', 'sys_log_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (76, 1, '一般', '0', 'sys_log_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (77, 1, '频道页', '1', 'sys_blog_sign', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (78, 0, '普通', '0', 'flow_level', '', '', 0, 1, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_data` VALUES (79, 0, '加急', '1', 'flow_level', '', '', 0, 1, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_data` VALUES (80, 0, '紧急', '2', 'flow_level', '', '', 0, 1, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_data` VALUES (81, 0, '特急', '3', 'flow_level', '', '', 0, 1, 200000000031, 200000000031, '', NULL, '2021-07-20 08:55:25');
+INSERT INTO `sys_dict_data` VALUES (82, 0, '频道页', '1', 'sys_blog_type', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (83, 0, '发布栏目', '2', 'sys_blog_type', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (84, 0, '跳转栏目', '3', 'sys_blog_type', '', '', 0, 1, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (85, 0, '单页栏目', '4', 'sys_blog_type', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (87, 0, '[cms]文章表', 'cms_news', 'flow_type', '', '', 0, 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (91, 0, '测试一下', '666', 'cms_article_type', '', '', 0, 1, 200000000031, 0, '', '2021-08-03 17:04:12', '2021-08-03 17:04:12');
+INSERT INTO `sys_dict_data` VALUES (92, 0, '缓存测试222', '33333', 'cms_article_type', '', '', 0, 1, 200000000031, 200000000031, '', '2021-08-03 17:16:45', '2021-08-03 17:19:41');
+INSERT INTO `sys_dict_data` VALUES (93, 0, '缓存测试222', '11111', 'cms_article_type', '', '', 0, 1, 200000000031, 200000000031, '', '2021-08-03 17:26:14', '2021-08-03 17:26:26');
+INSERT INTO `sys_dict_data` VALUES (94, 0, '1折', '10', 'plugin_store_discount', '', '', 0, 1, 200000000031, 0, '', '2021-08-14 11:59:38', '2021-08-14 11:59:38');
+INSERT INTO `sys_dict_data` VALUES (95, 0, '5折', '50', 'plugin_store_discount', '', '', 0, 1, 200000000031, 0, '', '2021-08-14 11:59:49', '2021-08-14 11:59:49');
+INSERT INTO `sys_dict_data` VALUES (96, 0, '8折', '80', 'plugin_store_discount', '', '', 0, 1, 200000000031, 0, '', '2021-08-14 12:00:00', '2021-08-14 12:00:00');
+INSERT INTO `sys_dict_data` VALUES (97, 0, '9折', '90', 'plugin_store_discount', '', '', 0, 1, 200000000031, 0, '', '2021-08-14 12:00:07', '2021-08-14 12:00:07');
+INSERT INTO `sys_dict_data` VALUES (98, 0, '无折扣', '100', 'plugin_store_discount', '', '', 0, 1, 200000000031, 0, '', '2021-08-14 12:00:16', '2021-08-14 12:00:16');
+INSERT INTO `sys_dict_data` VALUES (99, 0, '不显示', 'none', 'cms_nav_position', '', '', 1, 1, 200000000022, 0, '', '2021-08-31 15:37:35', '2021-08-31 15:37:35');
+INSERT INTO `sys_dict_data` VALUES (100, 0, '顶部导航', 'top', 'cms_nav_position', '', '', 0, 1, 200000000022, 0, '', '2021-08-31 15:37:57', '2021-08-31 15:37:57');
+INSERT INTO `sys_dict_data` VALUES (101, 0, '底部导航', 'bottom', 'cms_nav_position', '', '', 0, 1, 200000000022, 0, '', '2021-08-31 15:38:08', '2021-08-31 15:38:08');
+INSERT INTO `sys_dict_data` VALUES (102, 0, '读取', 'GET', 'sys_oper_log_type', '', '', 0, 1, 200000000031, 200000000031, '', '2022-12-21 11:59:10', '2022-12-23 19:03:02');
+INSERT INTO `sys_dict_data` VALUES (103, 0, '新增', 'POST', 'sys_oper_log_type', '', '', 0, 1, 200000000031, 200000000031, '', '2022-12-21 11:59:22', '2022-12-23 19:03:10');
+INSERT INTO `sys_dict_data` VALUES (104, 0, '修改', 'PUT', 'sys_oper_log_type', '', '', 0, 1, 200000000031, 200000000031, '', '2022-12-21 11:59:32', '2022-12-23 19:03:19');
+INSERT INTO `sys_dict_data` VALUES (105, 0, '删除', 'DELETE', 'sys_oper_log_type', '', '', 0, 1, 200000000031, 200000000031, '', '2022-12-21 11:59:44', '2022-12-23 19:03:27');
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -322,30 +322,30 @@ CREATE TABLE `sys_dict_type`  (
 -- ----------------------------
 -- Records of sys_dict_type
 -- ----------------------------
-INSERT INTO `sys_dict_type` VALUES (200000000001, '用户性别', 'sys_user_sex', 200000000001, 200000000031, 200000000001, '用于选择用户性别', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000002, '分类类型', 'cms_category_type', 200000000001, 200000000031, 200000000003, '文章分类类型', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_type` VALUES (200000000003, '任务状态', 'sys_job_status', 200000000001, 200000000031, 200000000031, '任务状态列表', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000013, '任务分组', 'sys_job_group', 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000014, '管理员登录状态', 'admin_login_status', 200000000001, 200000000031, 200000000031, '', NULL, '2022-09-16 15:26:01');
-INSERT INTO `sys_dict_type` VALUES (200000000015, '操作日志状态', 'sys_oper_log_status', 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000016, '任务策略', 'sys_job_policy', 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000017, '菜单状态', 'sys_show_hide', 200000000001, 200000000031, 0, '菜单状态', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000018, '系统开关', 'sys_normal_disable', 200000000001, 200000000031, 200000000031, '系统开关', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000024, '系统内置', 'sys_yes_no', 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000025, '文章发布状态', 'cms_article_pub_type', 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000026, '文章附加状态', 'cms_article_attr', 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000027, '文章类型', 'cms_article_type', 200000000001, 200000000031, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000028, '文章栏目模型分类', 'cms_cate_models', 200000000001, 200000000001, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000029, '政务工作模型分类', 'gov_cate_models', 200000000001, 200000000002, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000030, '菜单模块类型', 'menu_module_type', 200000000001, 200000000002, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000031, '工作流程类型', 'flow_type', 200000000001, 200000000002, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000032, '工作流程审批状态', 'flow_status', 200000000001, 200000000031, 0, '工作流程审批状态', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000033, '博客分类类型', 'sys_blog_type', 200000000001, 200000000031, 200000000031, '博客分类中的标志', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000034, '博客日志标志', 'sys_log_sign', 200000000001, 200000000031, 0, '博客日志管理中的标志数据字典', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (200000000035, '工作流紧急状态', 'flow_level', 200000000001, 200000000031, 200000000031, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_type` VALUES (200000000048, '插件商城折扣', 'plugin_store_discount', 200000000001, 200000000031, 0, '', '2021-08-14 11:59:26', '2021-08-14 11:59:26');
-INSERT INTO `sys_dict_type` VALUES (200000000049, 'CMS栏目导航位置', 'cms_nav_position', 200000000001, 200000000022, 0, '', '2021-08-31 15:37:04', '2021-08-31 15:37:04');
-INSERT INTO `sys_dict_type` VALUES (200000000050, '操作日志类型', 'sys_oper_log_type', 200000000001, 200000000031, 0, '', '2022-12-21 11:55:02', '2022-12-21 11:55:02');
+INSERT INTO `sys_dict_type` VALUES (1, '用户性别', 'sys_user_sex', 1, 200000000031, 200000000001, '用于选择用户性别', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (2, '分类类型', 'cms_category_type', 1, 200000000031, 200000000003, '文章分类类型', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_type` VALUES (3, '任务状态', 'sys_job_status', 1, 200000000031, 200000000031, '任务状态列表', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (13, '任务分组', 'sys_job_group', 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (14, '管理员登录状态', 'admin_login_status', 1, 200000000031, 200000000031, '', NULL, '2022-09-16 15:26:01');
+INSERT INTO `sys_dict_type` VALUES (15, '操作日志状态', 'sys_oper_log_status', 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (16, '任务策略', 'sys_job_policy', 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (17, '菜单状态', 'sys_show_hide', 1, 200000000031, 0, '菜单状态', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (18, '系统开关', 'sys_normal_disable', 1, 200000000031, 200000000031, '系统开关', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (24, '系统内置', 'sys_yes_no', 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (25, '文章发布状态', 'cms_article_pub_type', 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (26, '文章附加状态', 'cms_article_attr', 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (27, '文章类型', 'cms_article_type', 1, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (28, '文章栏目模型分类', 'cms_cate_models', 1, 200000000001, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (29, '政务工作模型分类', 'gov_cate_models', 1, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (30, '菜单模块类型', 'menu_module_type', 1, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (31, '工作流程类型', 'flow_type', 1, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (32, '工作流程审批状态', 'flow_status', 1, 200000000031, 0, '工作流程审批状态', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (33, '博客分类类型', 'sys_blog_type', 1, 200000000031, 200000000031, '博客分类中的标志', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (34, '博客日志标志', 'sys_log_sign', 1, 200000000031, 0, '博客日志管理中的标志数据字典', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (35, '工作流紧急状态', 'flow_level', 1, 200000000031, 200000000031, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_type` VALUES (48, '插件商城折扣', 'plugin_store_discount', 1, 200000000031, 0, '', '2021-08-14 11:59:26', '2021-08-14 11:59:26');
+INSERT INTO `sys_dict_type` VALUES (49, 'CMS栏目导航位置', 'cms_nav_position', 1, 200000000022, 0, '', '2021-08-31 15:37:04', '2021-08-31 15:37:04');
+INSERT INTO `sys_dict_type` VALUES (50, '操作日志类型', 'sys_oper_log_type', 1, 200000000031, 0, '', '2022-12-21 11:55:02', '2022-12-21 11:55:02');
 
 -- ----------------------------
 -- Table structure for sys_login_log
@@ -602,7 +602,7 @@ INSERT INTO `sys_user` VALUES (200000000042, 'demo01', '13699888556', '测试012
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_online`;
 CREATE TABLE `sys_user_online`  (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `uuid` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT '' COMMENT '用户标识',
   `token` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT '' COMMENT '用户token',
   `create_time` datetime NULL DEFAULT NULL COMMENT '登录时间',
@@ -667,43 +667,40 @@ INSERT INTO `sys_user_post` VALUES (200000000042, 3);
 -- ----------------------------
 DROP TABLE IF EXISTS `notice_message`;
 CREATE TABLE `notice_message` (
-  `id` BIGINT UNSIGNED NOT NULL COMMENT '??ID',
-  `title` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '????',
-  `content` TEXT NULL COMMENT '????',
-  `notice_type` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '????',
-  `target_type` VARCHAR(32) NOT NULL DEFAULT 'user' COMMENT '????',
-  `target_value` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '???',
-  `link_url` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '????',
-  `payload_json` JSON NULL COMMENT '????JSON',
-  `status` TINYINT NOT NULL DEFAULT 1 COMMENT '??',
-  `created_at` DATETIME NULL DEFAULT NULL COMMENT '????',
+  `id` BIGINT UNSIGNED NOT NULL COMMENT '通知ID',
+  `title` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '通知标题',
+  `content` TEXT NULL COMMENT '通知内容',
+  `notice_type` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '通知类型',
+  `target_type` VARCHAR(32) NOT NULL DEFAULT 'user' COMMENT '目标类型',
+  `target_value` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '目标值',
+  `link_url` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '跳转链接',
+  `payload_json` JSON NULL COMMENT '扩展数据JSON',
+  `status` TINYINT NOT NULL DEFAULT 1 COMMENT '状态',
+  `created_at` DATETIME NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `idx_notice_message_type` (`notice_type`, `created_at`),
   KEY `idx_notice_message_target` (`target_type`, `target_value`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='?????';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='站内通知';
 
--- ----------------------------
--- Table structure for notice_user
--- ----------------------------
 DROP TABLE IF EXISTS `notice_user`;
 CREATE TABLE `notice_user` (
-  `id` BIGINT UNSIGNED NOT NULL COMMENT '????ID',
-  `notice_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '??ID',
-  `user_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '??ID',
-  `read_status` TINYINT NOT NULL DEFAULT 0 COMMENT '????',
-  `read_at` DATETIME NULL DEFAULT NULL COMMENT '????',
-  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '????',
-  `created_at` DATETIME NULL DEFAULT NULL COMMENT '????',
+  `id` BIGINT UNSIGNED NOT NULL COMMENT '用户通知ID',
+  `notice_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '通知ID',
+  `user_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户ID',
+  `read_status` TINYINT NOT NULL DEFAULT 0 COMMENT '阅读状态',
+  `read_at` DATETIME NULL DEFAULT NULL COMMENT '阅读时间',
+  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '删除时间',
+  `created_at` DATETIME NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `idx_notice_user` (`user_id`, `read_status`, `created_at`),
   KEY `idx_notice_user_notice` (`notice_id`),
   KEY `idx_notice_user_deleted` (`deleted_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='???????';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户通知关联';
 
-INSERT INTO `sys_auth_rule` VALUES (1040, 0, 'api/v1/system/notice', '????', 'ele-Bell', 'nocheck', '', 0, 70, 0, '/system/notice', 'layout/routerView/parent', 0, '', 0, 0, 1, '/system/notice/list', 0, '', NOW(), NOW());
-INSERT INTO `sys_auth_rule` VALUES (1041, 1040, 'api/v1/system/notice/list', '????', 'ele-Message', 'nocheck', '', 1, 0, 0, '/system/notice/list', 'system/notice/index', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
-INSERT INTO `sys_auth_rule` VALUES (1042, 1041, 'api/v1/system/notice/send', '????', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
-INSERT INTO `sys_auth_rule` VALUES (1043, 1041, 'api/v1/system/notice/delete', '????', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
-INSERT INTO `sys_auth_rule` VALUES (1044, 1041, 'api/v1/system/notice/user-list', '????', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1040, 0, 'api/v1/system/notice', '站内通知', 'ele-Bell', 'nocheck', '', 0, 70, 0, '/system/notice', 'layout/routerView/parent', 0, '', 0, 0, 1, '/system/notice/list', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1041, 1040, 'api/v1/system/notice/list', '通知管理', 'ele-Message', 'nocheck', '', 1, 0, 0, '/system/notice/list', 'system/notice/index', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1042, 1041, 'api/v1/system/notice/send', '发送通知', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1043, 1041, 'api/v1/system/notice/delete', '删除通知', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1044, 1041, 'api/v1/system/notice/user-list', '发送记录', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
 
 SET FOREIGN_KEY_CHECKS = 1;
