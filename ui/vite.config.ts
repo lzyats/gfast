@@ -1,6 +1,6 @@
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
-import { defineConfig, loadEnv, ConfigEnv } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import viteCompression from 'vite-plugin-compression';
 import { buildConfig } from './src/utils/build';
 
@@ -13,20 +13,25 @@ const alias: Record<string, string> = {
 	'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
 };
 
-const viteConfig = defineConfig((mode: ConfigEnv) => {
-	const env = loadEnv(mode.mode, process.cwd());
+const viteConfig = defineConfig(({ command, mode }) => {
+	const env = loadEnv(mode, process.cwd());
 	return {
 		plugins: [vue(), viteCompression({disable:true})],
 		root: process.cwd(),
 		resolve: { alias },
-		base: mode.command === 'serve' ? './' : env.VITE_PUBLIC_PATH,
+		base: command === 'serve' ? './' : env.VITE_PUBLIC_PATH,
 		optimizeDeps: { exclude: ['vue-demi'] },
 		server: {
 			host: '0.0.0.0',
-			port: env.VITE_PORT as unknown as number,
+			port: Number(env.VITE_PORT),
 			open: JSON.parse(env.VITE_OPEN),
 			hmr: true,
 			proxy: {
+				'/api': {
+					target: 'http://127.0.0.1:8101',
+					ws: true,
+					changeOrigin: true,
+				},
 				'/gitee': {
 					target: 'https://gitee.com',
 					ws: true,
@@ -52,7 +57,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 				...(JSON.parse(env.VITE_OPEN_CDN) ? { external: buildConfig.external } : {}),
 			},
 		},
-		css: { preprocessorOptions: { css: { charset: false } , scss:{api:"modern-compiler"}}},
+		css: { preprocessorOptions: { css: { charset: false }, scss: {} } },
 		define: {
 			__VUE_I18N_LEGACY_API__: JSON.stringify(false),
 			__VUE_I18N_FULL_INSTALL__: JSON.stringify(false),

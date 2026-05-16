@@ -68,32 +68,17 @@
         <el-card shadow="hover">
           <template #header>
             <span>消息通知</span>
-            <span class="personal-info-more">更多</span>
+            <span class="personal-info-more" @click="handleMoreNotice">更多</span>
           </template>
           <div class="personal-info-box">
-            <ul class="personal-info-ul">
+            <el-empty v-if="newsInfoList.length === 0" description="暂无消息" :image-size="60" />
+            <ul v-else class="personal-info-ul">
               <li v-for="(v, k) in newsInfoList" :key="k" class="personal-info-li">
-                <a :href="v.link" target="_block" class="personal-info-li-title">{{ v.title }}</a>
+                <a href="javascript:;" class="personal-info-li-title" @click="handleNoticeClick(v)">{{ v.title }}</a>
+                <span class="personal-info-li-date">{{ v.createdAt }}</span>
               </li>
             </ul>
           </div>
-        </el-card>
-      </el-col>
-
-      <!-- 营销推荐 -->
-      <el-col :span="24">
-        <el-card shadow="hover" class="mt15" header="营销推荐">
-          <el-row :gutter="15" class="personal-recommend-row">
-            <el-col :sm="6" v-for="(v, k) in recommendList" :key="k" class="personal-recommend-col">
-              <div class="personal-recommend" :style="{ 'background-color': v.bg }">
-                <SvgIcon :name="v.icon" :size="70" :style="{ color: v.iconColor }" />
-                <div class="personal-recommend-auto">
-                  <div>{{ v.title }}</div>
-                  <div class="personal-recommend-msg">{{ v.msg }}</div>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
         </el-card>
       </el-col>
 
@@ -231,12 +216,13 @@ import { toRefs, reactive, computed, defineComponent,getCurrentInstance,onMounte
 import { formatAxis } from '/@/utils/formatTime';
 import { storeToRefs } from 'pinia';
 import { useUserInfo } from '/@/stores/userInfo';
+import { useRouter } from 'vue-router';
 import {getPersonalInfo, editPersonal, resetPwdPersonal, generateGoogleAuth, bindGoogleAuth, unbindGoogleAuth} from "/@/api/system/personal";
+import { getMyNoticeList, readMyNotice } from '/@/api/system/notice';
 import type { UploadProps } from 'element-plus'
 import {ElMessage} from "element-plus";
 import {ElMessageBox} from 'element-plus'
 import {getToken} from "/@/utils/gfast"
-import { newsInfoList, recommendList } from './mock';
 import {Session} from "/@/utils/storage";
 import QRCode from 'qrcodejs2-fixes';
 // 定义接口来定义对象的类型
@@ -246,7 +232,6 @@ interface PersonalState {
   roles: [];
   personalForm: any;
   newsInfoList: any;
-  recommendList: any;
   googleDialogVisible: boolean;
   googleForm: any;
 }
@@ -256,6 +241,7 @@ export default defineComponent({
   setup() {
     const baseURL:string|undefined|boolean = import.meta.env.VITE_API_URL
     const {proxy} = <any>getCurrentInstance();
+    const router = useRouter();
     const stores = useUserInfo();
     const googleQrRef = ref();
     const { userInfos } = storeToRefs(stores);
@@ -263,8 +249,7 @@ export default defineComponent({
       token:getToken(),
     })
     const state = reactive<PersonalState>({
-      newsInfoList,
-      recommendList,
+      newsInfoList: [],
       imageUrl:'',
       deptName:'',
       roles:[],
@@ -371,6 +356,22 @@ export default defineComponent({
         });
       }).catch(() => {});
     };
+    const loadNoticeList = () => {
+      getMyNoticeList({ pageNum: 1, pageSize: 5 }).then((res: any) => {
+        state.newsInfoList = res.data.list || [];
+      });
+    };
+    const handleNoticeClick = (item: any) => {
+      readMyNotice([item.id]).then(() => {
+        item.readStatus = 1;
+        if (item.linkUrl) {
+          router.push(item.linkUrl);
+        }
+      });
+    };
+    const handleMoreNotice = () => {
+      router.push('/system/notice/list');
+    };
     // 初始化用户数据
     const initUserInfo = () => {
       getPersonalInfo().then((res:any)=>{
@@ -396,6 +397,7 @@ export default defineComponent({
     // 页面加载时
     onMounted(() => {
       initUserInfo();
+      loadNoticeList();
     });
     return {
       proxy,
@@ -407,6 +409,8 @@ export default defineComponent({
       handleOpenGoogleBind,
       handleBindGoogle,
       handleUnbindGoogle,
+      handleNoticeClick,
+      handleMoreNotice,
       handleAvatarSuccess,
       dataParam,
       googleQrRef,
@@ -502,43 +506,6 @@ export default defineComponent({
           & a:hover {
             color: var(--el-color-primary);
             cursor: pointer;
-          }
-        }
-      }
-    }
-  }
-  .personal-recommend-row {
-    .personal-recommend-col {
-      .personal-recommend {
-        position: relative;
-        height: 100px;
-        border-radius: 3px;
-        overflow: hidden;
-        cursor: pointer;
-        &:hover {
-          i {
-            right: 0px !important;
-            bottom: 0px !important;
-            transition: all ease 0.3s;
-          }
-        }
-        i {
-          position: absolute;
-          right: -10px;
-          bottom: -10px;
-          font-size: 70px;
-          transform: rotate(-30deg);
-          transition: all ease 0.3s;
-        }
-        .personal-recommend-auto {
-          padding: 15px;
-          position: absolute;
-          left: 0;
-          top: 5%;
-          color: var(--next-color-white);
-          .personal-recommend-msg {
-            font-size: 12px;
-            margin-top: 10px;
           }
         }
       }
