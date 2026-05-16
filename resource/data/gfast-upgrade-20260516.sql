@@ -17,15 +17,46 @@ UPDATE `casbin_rule` SET `v0` = 'u_200000000003' WHERE `ptype` = 'g' AND `v0` = 
 UPDATE `casbin_rule` SET `v0` = 'u_200000000031' WHERE `ptype` = 'g' AND `v0` = 'u_31';
 
 ALTER TABLE `sys_user` MODIFY COLUMN `id` bigint(20) UNSIGNED NOT NULL;
-ALTER TABLE `sys_user`
-  ADD COLUMN `google_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Google验证码密钥' AFTER `user_email`,
-  ADD COLUMN `google_status` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Google验证码状态;0未绑定 1已绑定' AFTER `google_secret`;
+
+SET @sql = IF(
+  (SELECT COUNT(*) FROM `information_schema`.`columns` WHERE `table_schema` = DATABASE() AND `table_name` = 'sys_user' AND `column_name` = 'google_secret') = 0,
+  'ALTER TABLE `sys_user` ADD COLUMN `google_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '''' COMMENT ''Google验证码密钥'' AFTER `user_email`',
+  'SELECT 1'
+);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @sql = IF(
+  (SELECT COUNT(*) FROM `information_schema`.`columns` WHERE `table_schema` = DATABASE() AND `table_name` = 'sys_user' AND `column_name` = 'google_status') = 0,
+  'ALTER TABLE `sys_user` ADD COLUMN `google_status` tinyint(1) NOT NULL DEFAULT 0 COMMENT ''Google验证码状态;0未绑定 1已绑定'' AFTER `google_secret`',
+  'SELECT 1'
+);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
 ALTER TABLE `sys_config`
   MODIFY COLUMN `create_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '创建者',
-  MODIFY COLUMN `update_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '更新者',
-  ADD COLUMN `config_value_type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '参数值类型：1文本 2开关 3上传 4下拉 5数字' AFTER `config_type`,
-  ADD COLUMN `config_options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '参数扩展配置' AFTER `config_value_type`;
+  MODIFY COLUMN `update_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '更新者';
+
+SET @sql = IF(
+  (SELECT COUNT(*) FROM `information_schema`.`columns` WHERE `table_schema` = DATABASE() AND `table_name` = 'sys_config' AND `column_name` = 'config_value_type') = 0,
+  'ALTER TABLE `sys_config` ADD COLUMN `config_value_type` tinyint(1) NOT NULL DEFAULT 1 COMMENT ''参数值类型：1文本 2开关 3上传 4下拉 5数字'' AFTER `config_type`',
+  'SELECT 1'
+);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @sql = IF(
+  (SELECT COUNT(*) FROM `information_schema`.`columns` WHERE `table_schema` = DATABASE() AND `table_name` = 'sys_config' AND `column_name` = 'config_options') = 0,
+  'ALTER TABLE `sys_config` ADD COLUMN `config_options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT ''参数扩展配置'' AFTER `config_value_type`',
+  'SELECT 1'
+);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
 ALTER TABLE `sys_dict_data`
   MODIFY COLUMN `create_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '创建者',
