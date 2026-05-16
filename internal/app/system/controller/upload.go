@@ -247,9 +247,10 @@ func (c *uploadController) saveToS3(ctx context.Context, file *ghttp.UploadFile)
 		host = bucket + "." + endpointURL.Host
 	}
 
-	targetURL := endpointURL.Scheme + "://" + host + requestPath
+	requestURL := endpointURL.Scheme + "://" + host + requestPath
+	publicURL := requestURL
 	if baseURL != "" {
-		targetURL = strings.TrimRight(baseURL, "/") + objectPath
+		publicURL = buildPublicFileURL(baseURL, objectPath)
 	}
 
 	src, err := file.Open()
@@ -263,7 +264,7 @@ func (c *uploadController) saveToS3(ctx context.Context, file *ghttp.UploadFile)
 		return nil, err
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, endpointURL.Scheme+"://"+host+requestPath, bytes.NewReader(payload))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPut, requestURL, bytes.NewReader(payload))
 	if err != nil {
 		return nil, err
 	}
@@ -297,7 +298,7 @@ func (c *uploadController) saveToS3(ctx context.Context, file *ghttp.UploadFile)
 
 	return &uploadResult{
 		Path: objectPath,
-		Url:  targetURL,
+		Url:  publicURL,
 		Name: path.Base(objectPath),
 	}, nil
 }
@@ -457,6 +458,14 @@ func encodeS3Path(objectPath string) string {
 		encoded = "/" + encoded
 	}
 	return encoded
+}
+
+func buildPublicFileURL(baseURL, objectPath string) string {
+	baseURL = strings.TrimRight(baseURL, "/")
+	if baseURL == "" {
+		return objectPath
+	}
+	return baseURL + encodeS3Path(objectPath)
 }
 
 func sha1Hex(value string) string {
