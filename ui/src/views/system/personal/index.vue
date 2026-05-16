@@ -312,8 +312,9 @@ export default defineComponent({
         uploadFile
     ) => {
        if(response.code == 0){
-          state.imageUrl = response.data.path;
-          state.personalForm.avatar = response.data.path;
+          const uploadedValue = response.data.url || response.data.path;
+          state.imageUrl = uploadedValue;
+          state.personalForm.avatar = uploadedValue;
          handleUpload();
        }
 

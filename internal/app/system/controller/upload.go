@@ -210,7 +210,7 @@ func (c *uploadController) saveToOSS(ctx context.Context, file *ghttp.UploadFile
 	}
 
 	return &uploadResult{
-		Path: objectPath,
+		Path: publicURL,
 		Url:  publicURL,
 		Name: path.Base(objectPath),
 	}, nil
@@ -297,7 +297,7 @@ func (c *uploadController) saveToS3(ctx context.Context, file *ghttp.UploadFile)
 	}
 
 	return &uploadResult{
-		Path: objectPath,
+		Path: publicURL,
 		Url:  publicURL,
 		Name: path.Base(objectPath),
 	}, nil
