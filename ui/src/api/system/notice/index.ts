@@ -31,3 +31,33 @@ export function getNoticeUserList(query: object) {
 		params: query,
 	});
 }
+
+export function getMyNoticeList(query: object) {
+	return request({
+		url: '/api/v1/system/notice/my-list',
+		method: 'get',
+		params: query,
+	});
+}
+
+export function getMyNoticeUnread() {
+	return request({
+		url: '/api/v1/system/notice/my-unread',
+		method: 'get',
+	});
+}
+
+export function readMyNotice(ids: Array<number | string>) {
+	return request({
+		url: '/api/v1/system/notice/my-read',
+		method: 'post',
+		data: { ids },
+	});
+}
+
+export function readAllMyNotice() {
+	return request({
+		url: '/api/v1/system/notice/my-all-read',
+		method: 'post',
+	});
+}

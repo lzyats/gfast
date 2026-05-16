@@ -92,3 +92,50 @@ type NoticeMyUnreadRes struct {
 	g.Meta `mime:"application/json"`
 	Count  int `json:"count"`
 }
+
+type NoticeMyItem struct {
+	Id          uint64 `json:"id"`
+	NoticeId    uint64 `json:"noticeId"`
+	Title       string `json:"title"`
+	Content     string `json:"content"`
+	NoticeType  string `json:"noticeType"`
+	LinkUrl     string `json:"linkUrl"`
+	PayloadJson string `json:"payloadJson"`
+	ReadStatus  int    `json:"readStatus"`
+	ReadAt      string `json:"readAt"`
+	CreatedAt   string `json:"createdAt"`
+}
+
+type NoticeMyListReq struct {
+	g.Meta     `path:"/notice/my-list" tags:"通知管理" method:"get" summary:"我的站内通知列表"`
+	ReadStatus string `p:"readStatus"`
+	commonApi.Author
+	commonApi.PageReq
+}
+
+type NoticeMyListRes struct {
+	g.Meta `mime:"application/json"`
+	List   []*NoticeMyItem `json:"list"`
+	commonApi.ListRes
+}
+
+type NoticeMyReadReq struct {
+	g.Meta `path:"/notice/my-read" tags:"通知管理" method:"post" summary:"标记我的通知已读"`
+	Ids    []uint64 `p:"ids" v:"required#通知ID不能为空"`
+	commonApi.Author
+}
+
+type NoticeMyReadRes struct {
+	g.Meta `mime:"application/json"`
+	Count  int `json:"count"`
+}
+
+type NoticeMyAllReadReq struct {
+	g.Meta `path:"/notice/my-all-read" tags:"通知管理" method:"post" summary:"全部标记已读"`
+	commonApi.Author
+}
+
+type NoticeMyAllReadRes struct {
+	g.Meta `mime:"application/json"`
+	Count  int `json:"count"`
+}

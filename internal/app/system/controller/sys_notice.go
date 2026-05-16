@@ -90,6 +90,19 @@ type noticeUserRow struct {
 	CreatedAt  *gtime.Time `orm:"created_at"`
 }
 
+type myNoticeRow struct {
+	Id          uint64      `orm:"id"`
+	NoticeId    uint64      `orm:"notice_id"`
+	Title       string      `orm:"title"`
+	Content     string      `orm:"content"`
+	NoticeType  string      `orm:"notice_type"`
+	LinkUrl     string      `orm:"link_url"`
+	PayloadJson string      `orm:"payload_json"`
+	ReadStatus  int         `orm:"read_status"`
+	ReadAt      *gtime.Time `orm:"read_at"`
+	CreatedAt   *gtime.Time `orm:"created_at"`
+}
+
 func (c *noticeController) List(ctx context.Context, req *system.NoticeListReq) (res *system.NoticeListRes, err error) {
 	res = &system.NoticeListRes{List: []*system.NoticeMessage{}}
 	model := g.DB().Model("notice_message")
@@ -324,6 +337,89 @@ func (c *noticeController) MyUnread(ctx context.Context, req *system.NoticeMyUnr
 	return &system.NoticeMyUnreadRes{Count: count}, nil
 }
 
+func (c *noticeController) MyList(ctx context.Context, req *system.NoticeMyListReq) (res *system.NoticeMyListRes, err error) {
+	res = &system.NoticeMyListRes{List: []*system.NoticeMyItem{}}
+	userID := service.Context().GetUserId(ctx)
+	model := g.DB().Model("notice_user nu").
+		LeftJoin("notice_message nm", "nm.id = nu.notice_id").
+		Where("nu.user_id", userID).
+		Where("nu.deleted_at IS NULL").
+		Where("nm.status", 1)
+	if strings.TrimSpace(req.ReadStatus) != "" {
+		model = model.Where("nu.read_status", gconv.Int(req.ReadStatus))
+	}
+	total, err := model.Count()
+	if err != nil {
+		return nil, err
+	}
+	pageNum := req.PageNum
+	pageSize := req.PageSize
+	if pageNum <= 0 {
+		pageNum = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 10
+	}
+	rows := make([]*myNoticeRow, 0)
+	err = model.Fields("nu.id,nu.notice_id,nm.title,nm.content,nm.notice_type,nm.link_url,CAST(nm.payload_json AS CHAR) AS payload_json,nu.read_status,nu.read_at,nu.created_at").
+		OrderDesc("nu.created_at").
+		Page(pageNum, pageSize).
+		Scan(&rows)
+	if err != nil {
+		return nil, err
+	}
+	for _, row := range rows {
+		res.List = append(res.List, &system.NoticeMyItem{
+			Id:          row.Id,
+			NoticeId:    row.NoticeId,
+			Title:       row.Title,
+			Content:     row.Content,
+			NoticeType:  row.NoticeType,
+			LinkUrl:     row.LinkUrl,
+			PayloadJson: row.PayloadJson,
+			ReadStatus:  row.ReadStatus,
+			ReadAt:      formatSystemTime(row.ReadAt),
+			CreatedAt:   formatSystemTime(row.CreatedAt),
+		})
+	}
+	res.Total = total
+	res.CurrentPage = pageNum
+	return
+}
+
+func (c *noticeController) MyRead(ctx context.Context, req *system.NoticeMyReadReq) (res *system.NoticeMyReadRes, err error) {
+	userID := service.Context().GetUserId(ctx)
+	if len(req.Ids) > 0 {
+		_, err = g.DB().Model("notice_user").
+			Where("user_id", userID).
+			WhereIn("id", req.Ids).
+			Where("read_status", 0).
+			Where("deleted_at IS NULL").
+			Update(g.Map{"read_status": 1, "read_at": gtime.Now()})
+		if err != nil {
+			return nil, err
+		}
+	}
+	count, err := unreadNoticeCount(userID)
+	if err != nil {
+		return nil, err
+	}
+	return &system.NoticeMyReadRes{Count: count}, nil
+}
+
+func (c *noticeController) MyAllRead(ctx context.Context, req *system.NoticeMyAllReadReq) (res *system.NoticeMyAllReadRes, err error) {
+	userID := service.Context().GetUserId(ctx)
+	_, err = g.DB().Model("notice_user").
+		Where("user_id", userID).
+		Where("read_status", 0).
+		Where("deleted_at IS NULL").
+		Update(g.Map{"read_status": 1, "read_at": gtime.Now()})
+	if err != nil {
+		return nil, err
+	}
+	return &system.NoticeMyAllReadRes{Count: 0}, nil
+}
+
 func toNoticeMessage(row *noticeMessageRow) *system.NoticeMessage {
 	if row == nil {
 		return nil
@@ -413,6 +509,14 @@ func random12DigitID() (uint64, error) {
 		return 0, err
 	}
 	return gconv.Uint64(fmt.Sprintf("%d%011d", first.Int64()+1, rest.Int64())), nil
+}
+
+func unreadNoticeCount(userID uint64) (int, error) {
+	return g.DB().Model("notice_user").
+		Where("user_id", userID).
+		Where("read_status", 0).
+		Where("deleted_at IS NULL").
+		Count()
 }
 
 func formatSystemTime(t *gtime.Time) string {

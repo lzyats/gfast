@@ -4,53 +4,92 @@
 			<div class="head-box-title">{{ $t('message.user.newTitle') }}</div>
 			<div class="head-box-btn" v-if="newsList.length > 0" @click="onAllReadClick">{{ $t('message.user.newBtn') }}</div>
 		</div>
-		<div class="content-box">
+		<div class="content-box" v-loading="loading">
 			<template v-if="newsList.length > 0">
-				<div class="content-box-item" v-for="(v, k) in newsList" :key="k">
-					<div>{{ v.label }}</div>
-					<div class="content-box-msg">
-						{{ v.value }}
+				<div class="content-box-item" v-for="item in newsList" :key="item.id" @click="onNoticeClick(item)">
+					<div class="content-box-title">
+						<span>{{ item.title }}</span>
+						<el-tag size="small" type="danger" v-if="item.readStatus === 0">未读</el-tag>
 					</div>
-					<div class="content-box-time">{{ v.time }}</div>
+					<div class="content-box-msg">{{ item.content }}</div>
+					<div class="content-box-time">{{ item.createdAt }}</div>
 				</div>
 			</template>
 			<el-empty :description="$t('message.user.newDesc')" v-else></el-empty>
 		</div>
-		<div class="foot-box" @click="onGoToGiteeClick" v-if="newsList.length > 0">{{ $t('message.user.newGo') }}</div>
+		<div class="foot-box" @click="onGoToNoticeClick">{{ $t('message.user.newGo') }}</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+import { getMyNoticeList, readAllMyNotice, readMyNotice } from '/@/api/system/notice';
+
+interface MyNoticeItem {
+	id: number;
+	noticeId: number;
+	title: string;
+	content: string;
+	noticeType: string;
+	linkUrl: string;
+	payloadJson: string;
+	readStatus: number;
+	createdAt: string;
+}
 
 export default defineComponent({
 	name: 'layoutBreadcrumbUserNews',
-	setup() {
+	emits: ['notice-count-change'],
+	setup(_props, { emit }) {
+		const router = useRouter();
 		const state = reactive({
-			newsList: [
-				{
-					label: '关于版本发布的通知',
-					value: 'vue-next-admin，基于 vue3 + CompositionAPI + typescript + vite + element plus，正式发布时间：2021年02月28日！',
-					time: '2020-12-08',
-				},
-				{
-					label: '关于学习交流的通知',
-					value: 'QQ群号码 665452019，欢迎小伙伴入群学习交流探讨！',
-					time: '2020-12-08',
-				},
-			],
+			loading: false,
+			newsList: [] as MyNoticeItem[],
 		});
-		// 全部已读点击
+
+		const loadNewsList = () => {
+			state.loading = true;
+			getMyNoticeList({ pageNum: 1, pageSize: 8, readStatus: 0 })
+				.then((res: any) => {
+					state.newsList = res.data.list || [];
+					emit('notice-count-change', res.data.total || 0);
+				})
+				.finally(() => {
+					state.loading = false;
+				});
+		};
+
 		const onAllReadClick = () => {
-			state.newsList = [];
+			readAllMyNotice().then((res: any) => {
+				state.newsList = [];
+				emit('notice-count-change', res.data.count || 0);
+			});
 		};
-		// 前往通知中心点击
-		const onGoToGiteeClick = () => {
-			window.open('https://gitee.com/tiger1103/gfast');
+
+		const onNoticeClick = (item: MyNoticeItem) => {
+			readMyNotice([item.id]).then((res: any) => {
+				state.newsList = state.newsList.filter((notice) => notice.id !== item.id);
+				emit('notice-count-change', res.data.count || 0);
+				if (item.linkUrl) {
+					if (/^https?:\/\//i.test(item.linkUrl)) window.open(item.linkUrl);
+					else router.push(item.linkUrl);
+				}
+			});
 		};
+
+		const onGoToNoticeClick = () => {
+			router.push('/system/notice/list');
+		};
+
+		onMounted(() => {
+			loadNewsList();
+		});
+
 		return {
 			onAllReadClick,
-			onGoToGiteeClick,
+			onNoticeClick,
+			onGoToNoticeClick,
 			...toRefs(state),
 		};
 	},
@@ -79,15 +118,35 @@ export default defineComponent({
 	}
 	.content-box {
 		font-size: 13px;
+		min-height: 90px;
+		max-height: 360px;
+		overflow-y: auto;
 		.content-box-item {
-			padding-top: 12px;
+			padding: 12px 0;
+			cursor: pointer;
+			border-bottom: 1px solid var(--el-border-color-lighter);
+			&:hover {
+				color: var(--el-color-primary);
+			}
 			&:last-of-type {
-				padding-bottom: 12px;
+				border-bottom: 0;
+			}
+			.content-box-title {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 8px;
+				color: var(--el-text-color-primary);
 			}
 			.content-box-msg {
 				color: var(--el-text-color-secondary);
 				margin-top: 5px;
 				margin-bottom: 5px;
+				line-height: 1.5;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
 			}
 			.content-box-time {
 				color: var(--el-text-color-secondary);

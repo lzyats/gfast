@@ -38,14 +38,14 @@
 		<div class="layout-navbars-breadcrumb-user-icon">
 			<el-popover placement="bottom" trigger="click" transition="el-zoom-in-top" :width="300" :persistent="false">
 				<template #reference>
-					<el-badge :is-dot="true">
+					<el-badge :value="noticeUnread" :hidden="noticeUnread <= 0" :max="99">
 						<el-icon :title="$t('message.user.title4')">
 							<ele-Bell />
 						</el-icon>
 					</el-badge>
 				</template>
 				<template #default>
-					<UserNews />
+					<UserNews @notice-count-change="setNoticeUnread" />
 				</template>
 			</el-popover>
 		</div>
@@ -80,9 +80,9 @@
 </template>
 
 <script lang="ts">
-import { ref, getCurrentInstance, computed, reactive, toRefs, onMounted, defineComponent } from 'vue';
+import { ref, getCurrentInstance, computed, reactive, toRefs, onMounted, onUnmounted, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
 import screenfull from 'screenfull';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
@@ -94,6 +94,7 @@ import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import Search from '/@/layout/navBars/breadcrumb/search.vue';
 import {logout} from "/@/api/login";
 import {removeCache} from "/@/api/system/cache";
+import { getMyNoticeUnread } from '/@/api/system/notice';
 
 export default defineComponent({
 	name: 'layoutBreadcrumbUser',
@@ -107,6 +108,9 @@ export default defineComponent({
 		const { userInfos } = storeToRefs(stores);
 		const { themeConfig } = storeToRefs(storesThemeConfig);
 		const searchRef = ref();
+		const noticeUnread = ref(0);
+		let noticeWs: WebSocket | null = null;
+		let noticeReconnectTimer: number | undefined;
 		const state = reactive({
 			isScreenfull: false,
 			disabledI18n: 'zh-cn',
@@ -147,6 +151,62 @@ export default defineComponent({
         window.location.reload();
       })
     };
+		const setNoticeUnread = (count: number) => {
+			noticeUnread.value = Number(count) || 0;
+		};
+		const loadNoticeUnread = () => {
+			getMyNoticeUnread().then((res: any) => {
+				setNoticeUnread(res.data.count || 0);
+			});
+		};
+		const getNoticeWsUrl = () => {
+			const token = Session.get('token');
+			const apiUrl = import.meta.env.VITE_API_URL || window.location.origin;
+			const baseUrl = new URL(apiUrl, window.location.origin);
+			baseUrl.protocol = baseUrl.protocol === 'https:' ? 'wss:' : 'ws:';
+			baseUrl.pathname = '/api/v1/system/notice/ws';
+			baseUrl.search = token ? `token=${encodeURIComponent(token)}` : '';
+			return baseUrl.toString();
+		};
+		const closeNoticeWs = () => {
+			if (noticeReconnectTimer) {
+				window.clearTimeout(noticeReconnectTimer);
+				noticeReconnectTimer = undefined;
+			}
+			if (noticeWs) {
+				noticeWs.onclose = null;
+				noticeWs.close();
+				noticeWs = null;
+			}
+		};
+		const connectNoticeWs = () => {
+			if (!Session.get('token') || noticeWs) return;
+			noticeWs = new WebSocket(getNoticeWsUrl());
+			noticeWs.onmessage = (event) => {
+				try {
+					const message = JSON.parse(event.data);
+					if (message?.type !== 'notice') return;
+					const unreadCount = message?.meta?.unread_count;
+					if (unreadCount !== undefined) setNoticeUnread(unreadCount);
+					if (message.event === 'new' && message.data?.title) {
+						ElNotification({
+							title: message.data.title,
+							message: message.data.content || '',
+							type: 'info',
+							duration: 4500,
+						});
+					}
+				} catch {
+					// ignore malformed websocket messages
+				}
+			};
+			noticeWs.onclose = () => {
+				noticeWs = null;
+				if (Session.get('token')) {
+					noticeReconnectTimer = window.setTimeout(connectNoticeWs, 5000);
+				}
+			};
+		};
 		// 下拉菜单点击时
 		const onHandleCommandClick = (path: string) => {
 			if (path === 'logOut') {
@@ -252,9 +312,16 @@ export default defineComponent({
 				initI18n();
 				initComponentSize();
 			}
+			loadNoticeUnread();
+			connectNoticeWs();
+		});
+		onUnmounted(() => {
+			closeNoticeWs();
 		});
 		return {
 			userInfos,
+			noticeUnread,
+			setNoticeUnread,
 			onLayoutSetingClick,
 			onHandleCommandClick,
 			onScreenfullClick,
