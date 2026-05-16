@@ -1,6 +1,6 @@
 /*
-* @desc:登录
-* @company:云南奇讯科技有限公司
+* @desc:鐧诲綍
+* @company:浜戝崡濂囪绉戞妧鏈夐檺鍏徃
 * @Author: yixiaohu
 * @Date:   2022/4/27 21:51
  */
@@ -14,11 +14,12 @@ import (
 )
 
 type UserLoginReq struct {
-	g.Meta     `path:"/login" tags:"登录" method:"post" summary:"用户登录"`
-	Username   string `p:"username" v:"required#用户名不能为空"`
-	Password   string `p:"password" v:"required#密码不能为空"`
-	VerifyCode string `p:"verifyCode" v:"required#验证码不能为空"`
+	g.Meta     `path:"/login" tags:"鐧诲綍" method:"post" summary:"鐢ㄦ埛鐧诲綍"`
+	Username   string `p:"username" v:"required#鐢ㄦ埛鍚嶄笉鑳戒负绌?`
+	Password   string `p:"password" v:"required#瀵嗙爜涓嶈兘涓虹┖"`
+	VerifyCode string `p:"verifyCode" v:"required#楠岃瘉鐮佷笉鑳戒负绌?`
 	VerifyKey  string `p:"verifyKey"`
+	GoogleCode string `p:"googleCode"`
 }
 
 type UserLoginRes struct {
@@ -30,7 +31,7 @@ type UserLoginRes struct {
 }
 
 type UserLoginOutReq struct {
-	g.Meta `path:"/logout" tags:"登录" method:"get" summary:"退出登录"`
+	g.Meta `path:"/logout" tags:"鐧诲綍" method:"get" summary:"閫€鍑虹櫥褰?`
 	commonApi.Author
 }
 

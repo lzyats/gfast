@@ -10,6 +10,7 @@ package personal
 import (
 	"context"
 	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/grand"
 	"github.com/tiger1103/gfast/v3/api/v1/system"
@@ -93,4 +94,54 @@ func (s *sPersonal) ResetPwdPersonal(ctx context.Context, req *system.PersonalRe
 		liberr.ErrIsNil(ctx, err, "重置用户密码失败")
 	})
 	return
+}
+
+func (s *sPersonal) GenerateGoogleAuth(ctx context.Context, req *system.PersonalGoogleGenerateReq) (res *system.PersonalGoogleGenerateRes, err error) {
+	userId := service.Context().GetUserId(ctx)
+	user, err := service.SysUser().GetUserById(ctx, userId)
+	if err != nil {
+		return nil, err
+	}
+	secret, err := libUtils.GenerateTOTPSecret()
+	if err != nil {
+		return nil, err
+	}
+	return &system.PersonalGoogleGenerateRes{
+		Secret: secret,
+		QrUrl:  libUtils.BuildTOTPURL("GFast", user.UserName, secret),
+	}, nil
+}
+
+func (s *sPersonal) BindGoogleAuth(ctx context.Context, req *system.PersonalGoogleBindReq) (res *system.PersonalGoogleBindRes, err error) {
+	if !libUtils.VerifyTOTP(req.Secret, req.Code) {
+		return nil, gerror.New("Google验证码错误")
+	}
+	userId := service.Context().GetUserId(ctx)
+	_, err = dao.SysUser.Ctx(ctx).WherePri(userId).Update(do.SysUser{
+		GoogleSecret: req.Secret,
+		GoogleStatus: 1,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &system.PersonalGoogleBindRes{}, nil
+}
+
+func (s *sPersonal) UnbindGoogleAuth(ctx context.Context, req *system.PersonalGoogleUnbindReq) (res *system.PersonalGoogleUnbindRes, err error) {
+	userId := service.Context().GetUserId(ctx)
+	user, err := service.SysUser().GetUserById(ctx, userId)
+	if err != nil {
+		return nil, err
+	}
+	if user.GoogleStatus == 1 && !libUtils.VerifyTOTP(user.GoogleSecret, req.Code) {
+		return nil, gerror.New("Google验证码错误")
+	}
+	_, err = dao.SysUser.Ctx(ctx).WherePri(userId).Update(do.SysUser{
+		GoogleSecret: "",
+		GoogleStatus: 0,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &system.PersonalGoogleUnbindRes{}, nil
 }

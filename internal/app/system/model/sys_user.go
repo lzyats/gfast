@@ -1,7 +1,5 @@
 /*
-* @desc:用户模型对象
-* @company:云南奇讯科技有限公司
-* @Author: yixiaohu
+* @desc:閻劍鍩涘Ο鈥崇€风€电钖?* @company:娴滄垵宕℃總鍥唵缁夋垶濡ч張澶愭閸忣剙寰?* @Author: yixiaohu
 * @Date:   2022/3/7 11:47
  */
 
@@ -12,20 +10,22 @@ import (
 	"github.com/tiger1103/gfast/v3/internal/app/system/model/entity"
 )
 
-// LoginUserRes 登录返回
+// LoginUserRes 閻ц缍嶆潻鏂挎礀
 type LoginUserRes struct {
-	Id           uint64 `orm:"id,primary"       json:"id"`           //
-	UserName     string `orm:"user_name,unique" json:"userName"`     // 用户名
-	UserNickname string `orm:"user_nickname"    json:"userNickname"` // 用户昵称
-	UserPassword string `orm:"user_password"    json:"userPassword"` // 登录密码;cmf_password加密
-	UserSalt     string `orm:"user_salt"        json:"userSalt"`     // 加密盐
-	UserStatus   uint   `orm:"user_status"      json:"userStatus"`   // 用户状态;0:禁用,1:正常,2:未验证
-	IsAdmin      int    `orm:"is_admin"         json:"isAdmin"`      // 是否后台管理员 1 是  0   否
-	Avatar       string `orm:"avatar" json:"avatar"`                 //头像
-	DeptId       uint64 `orm:"dept_id"       json:"deptId"`          //部门id
+	Id           uint64 `orm:"id,primary"       json:"id"`
+	UserName     string `orm:"user_name,unique" json:"userName"`
+	UserNickname string `orm:"user_nickname"    json:"userNickname"`
+	UserPassword string `orm:"user_password"    json:"userPassword"`
+	UserSalt     string `orm:"user_salt"        json:"userSalt"`
+	UserStatus   uint   `orm:"user_status"      json:"userStatus"`
+	IsAdmin      int    `orm:"is_admin"         json:"isAdmin"`
+	Avatar       string `orm:"avatar"           json:"avatar"`
+	GoogleSecret string `orm:"google_secret"    json:"-"`
+	GoogleStatus int    `orm:"google_status"    json:"googleStatus"`
+	DeptId       uint64 `orm:"dept_id"          json:"deptId"`
 }
 
-// SysUserRoleDeptRes 带有部门、角色、岗位信息的用户数据
+// SysUserRoleDeptRes 鐢附婀侀柈銊╂，閵嗕浇顫楅懝灞傗偓浣哥煐娴ｅ秳淇婇幁顖滄畱閻劍鍩涢弫鐗堝祦
 type SysUserRoleDeptRes struct {
 	*entity.SysUser
 	Dept     *entity.SysDept       `json:"dept"`
@@ -45,9 +45,9 @@ type SysUserPostInfoRes struct {
 
 type SysUserSimpleRes struct {
 	gmeta.Meta   `orm:"table:sys_user"`
-	Id           uint64 `orm:"id"       json:"id"`                   //
-	Avatar       string `orm:"avatar" json:"avatar"`                 // 头像
-	Sex          int    `orm:"sex" json:"sex"`                       // 性别
-	UserName     string `orm:"user_name" json:"userName"`            // 用户名
-	UserNickname string `orm:"user_nickname"    json:"userNickname"` // 用户昵称
+	Id           uint64 `orm:"id" json:"id"`
+	Avatar       string `orm:"avatar" json:"avatar"`
+	Sex          int    `orm:"sex" json:"sex"`
+	UserName     string `orm:"user_name" json:"userName"`
+	UserNickname string `orm:"user_nickname" json:"userNickname"`
 }

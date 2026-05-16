@@ -74,8 +74,35 @@ redis:
     writeTimeout: "30s" #TCP的Write操作超时时间，使用时间字符串例如30s/1m/1d
     maxActive: 100
 
+upload:
+  default: 0   # 0=local 1=cos 2=oss 3=s3
+  local:
+    baseUrl: ""
+    pathPrefix: "upload_file"
+  cos:
+    secretId: ""
+    secretKey: ""
+    bucket: ""
+    region: ""
+    appId: ""
+    baseUrl: ""
+  oss:
+    endpoint: ""
+    bucket: ""
+    accessKeyId: ""
+    accessKeySecret: ""
+    baseUrl: ""
+  s3:
+    endpoint: ""
+    region: ""
+    bucket: ""
+    accessKeyId: ""
+    secretAccessKey: ""
+    baseUrl: ""
+    forcePathStyle: false
+
 system:
-  notCheckAuthAdminIds: [1,2,31]  #无需验证后台权限的用户id
+  notCheckAuthAdminIds: [200000000001,200000000002,200000000031]  #无需验证后台权限的用户id
   dataDir: "./resource/data"
   cache:
     model: "redis"  #缓存模式 memory OR redis

@@ -56,12 +56,12 @@ INSERT INTO `casbin_rule` VALUES ('p', '1', '23', 'All', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '1', '24', 'All', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '1', '25', 'All', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '1', '26', 'All', '', '', '');
-INSERT INTO `casbin_rule` VALUES ('g', 'u_3', '1', '', '', '', '');
-INSERT INTO `casbin_rule` VALUES ('g', 'u_3', '2', '', '', '', '');
+INSERT INTO `casbin_rule` VALUES ('g', 'u_200000000003', '1', '', '', '', '');
+INSERT INTO `casbin_rule` VALUES ('g', 'u_200000000003', '2', '', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '2', '31', 'All', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '2', '32', 'All', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '2', '34', 'All', '', '', '');
-INSERT INTO `casbin_rule` VALUES ('g', 'u_31', '2', '', '', '', '');
+INSERT INTO `casbin_rule` VALUES ('g', 'u_200000000031', '2', '', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '1', '35', 'All', '', '', '');
 INSERT INTO `casbin_rule` VALUES ('p', '2', '33', 'All', '', '', '');
 
@@ -144,8 +144,10 @@ CREATE TABLE `sys_config`  (
   `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数键名',
   `config_value` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '参数键值',
   `config_type` tinyint(1) NULL DEFAULT 0 COMMENT '系统内置（Y是 N否）',
-  `create_by` int(64) UNSIGNED NULL DEFAULT 0 COMMENT '创建者',
-  `update_by` int(64) UNSIGNED NULL DEFAULT 0 COMMENT '更新者',
+  `config_value_type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '参数值类型：1文本 2开关 3上传 4下拉 5数字',
+  `config_options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '参数扩展配置',
+  `create_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '创建者',
+  `update_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '更新者',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `created_at` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime NULL DEFAULT NULL COMMENT '修改时间',
@@ -156,11 +158,11 @@ CREATE TABLE `sys_config`  (
 -- ----------------------------
 -- Records of sys_config
 -- ----------------------------
-INSERT INTO `sys_config` VALUES (1, '文件上传-文件大小', 'sys.uploadFile.fileSize', '50M', 1, 31, 31, '文件上传大小限制', NULL, '2021-07-06 14:57:35');
-INSERT INTO `sys_config` VALUES (2, '文件上传-文件类型', 'sys.uploadFile.fileType', 'doc,docx,zip,xls,xlsx,rar,jpg,jpeg,gif,npm,png,mp4', 1, 31, 31, '文件上传后缀类型限制', NULL, '2022-12-16 09:52:45');
-INSERT INTO `sys_config` VALUES (3, '图片上传-图片类型', 'sys.uploadFile.imageType', 'jpg,jpeg,gif,npm,png', 1, 31, 0, '图片上传后缀类型限制', NULL, NULL);
-INSERT INTO `sys_config` VALUES (4, '图片上传-图片大小', 'sys.uploadFile.imageSize', '50M', 1, 31, 31, '图片上传大小限制', NULL, NULL);
-INSERT INTO `sys_config` VALUES (11, '静态资源', 'static.resource', '/', 1, 2, 0, '', NULL, NULL);
+INSERT INTO `sys_config` VALUES (1, '文件上传-文件大小', 'sys.uploadFile.fileSize', '50M', 1, 1, '', 200000000031, 200000000031, '文件上传大小限制', NULL, '2021-07-06 14:57:35');
+INSERT INTO `sys_config` VALUES (2, '文件上传-文件类型', 'sys.uploadFile.fileType', 'doc,docx,zip,xls,xlsx,rar,jpg,jpeg,gif,npm,png,mp4', 1, 1, '', 200000000031, 200000000031, '文件上传后缀类型限制', NULL, '2022-12-16 09:52:45');
+INSERT INTO `sys_config` VALUES (3, '图片上传-图片类型', 'sys.uploadFile.imageType', 'jpg,jpeg,gif,npm,png', 1, 1, '', 200000000031, 0, '图片上传后缀类型限制', NULL, NULL);
+INSERT INTO `sys_config` VALUES (4, '图片上传-图片大小', 'sys.uploadFile.imageSize', '50M', 1, 1, '', 200000000031, 200000000031, '图片上传大小限制', NULL, NULL);
+INSERT INTO `sys_config` VALUES (11, '静态资源', 'static.resource', '/', 1, 1, '', 200000000002, 0, '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -227,77 +229,77 @@ CREATE TABLE `sys_dict_data`  (
 -- ----------------------------
 -- Records of sys_dict_data
 -- ----------------------------
-INSERT INTO `sys_dict_data` VALUES (1, 0, '男', '1', 'sys_user_sex', '', '', 0, 1, 31, 2, '备注信息', '2022-04-18 16:46:22', NULL);
-INSERT INTO `sys_dict_data` VALUES (2, 0, '女', '2', 'sys_user_sex', '', '', 0, 1, 31, 31, '备注信息', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (3, 0, '保密', '0', 'sys_user_sex', '', '', 1, 1, 31, 31, '备注信息', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (24, 0, '频道页', '1', 'cms_category_type', '', '', 0, 1, 31, 31, '作为频道页，不可作为栏目发布文章，可添加下级分类', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (25, 0, '发布栏目', '2', 'cms_category_type', '', '', 0, 1, 31, 31, '作为发布栏目，可添加文章', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (26, 0, '跳转栏目', '3', 'cms_category_type', '', '', 0, 1, 31, 31, '不直接发布内容，用于跳转页面', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (27, 0, '单页栏目', '4', 'cms_category_type', '', '', 0, 1, 31, 31, '单页面模式，分类直接显示为文章', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_data` VALUES (28, 0, '正常', '0', 'sys_job_status', '', 'default', 1, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (29, 0, '暂停', '1', 'sys_job_status', '', 'default', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (30, 0, '默认', 'DEFAULT', 'sys_job_group', '', 'default', 1, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (31, 0, '系统', 'SYSTEM', 'sys_job_group', '', 'default', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (32, 0, '成功', '1', 'admin_login_status', '', 'default', 0, 1, 31, 31, '', NULL, '2022-09-16 15:26:01');
-INSERT INTO `sys_dict_data` VALUES (33, 0, '失败', '0', 'admin_login_status', '', 'default', 0, 1, 31, 0, '', NULL, '2022-09-16 15:26:01');
-INSERT INTO `sys_dict_data` VALUES (34, 0, '成功', '1', 'sys_oper_log_status', '', 'default', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (35, 0, '失败', '0', 'sys_oper_log_status', '', 'default', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (36, 0, '重复执行', '1', 'sys_job_policy', '', 'default', 1, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (37, 0, '执行一次', '2', 'sys_job_policy', '', 'default', 1, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (38, 0, '显示', '0', 'sys_show_hide', NULL, 'default', 1, 1, 31, 0, NULL, NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (39, 0, '隐藏', '1', 'sys_show_hide', NULL, 'default', 0, 1, 31, 0, NULL, NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (40, 0, '正常', '1', 'sys_normal_disable', '', 'default', 1, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (41, 0, '停用', '0', 'sys_normal_disable', '', 'default', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (49, 0, '是', '1', 'sys_yes_no', '', '', 1, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (50, 0, '否', '0', 'sys_yes_no', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (51, 0, '已发布', '1', 'cms_article_pub_type', '', '', 1, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (54, 0, '未发布', '0', 'cms_article_pub_type', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (55, 0, '置顶', '1', 'cms_article_attr', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (56, 0, '推荐', '2', 'cms_article_attr', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (57, 0, '普通文章', '0', 'cms_article_type', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (58, 0, '跳转链接', '1', 'cms_article_type', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (59, 0, 'cms模型', '6', 'cms_cate_models', '', '', 0, 1, 1, 1, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (61, 0, '政府工作目标', '1', 'gov_cate_models', '', '', 0, 1, 2, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (62, 0, '系统后台', 'sys_admin', 'menu_module_type', '', '', 1, 1, 2, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (63, 0, '政务工作', 'gov_work', 'menu_module_type', '', '', 0, 1, 2, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (64, 0, '幻灯', '3', 'cms_article_attr', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (65, 0, '[work]测试业务表', 'wf_news', 'flow_type', '', '', 0, 1, 2, 2, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (66, 0, '回退修改', '-1', 'flow_status', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (67, 0, '保存中', '0', 'flow_status', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (68, 0, '流程中', '1', 'flow_status', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (69, 0, '审批通过', '2', 'flow_status', '', '', 0, 1, 31, 2, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (70, 2, '发布栏目', '2', 'sys_blog_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (71, 3, '跳转栏目', '3', 'sys_blog_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (72, 4, '单页栏目', '4', 'sys_blog_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (73, 2, '置顶', '1', 'sys_log_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (74, 3, '幻灯', '2', 'sys_log_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (75, 4, '推荐', '3', 'sys_log_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (76, 1, '一般', '0', 'sys_log_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (77, 1, '频道页', '1', 'sys_blog_sign', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (78, 0, '普通', '0', 'flow_level', '', '', 0, 1, 31, 0, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_data` VALUES (79, 0, '加急', '1', 'flow_level', '', '', 0, 1, 31, 0, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_data` VALUES (80, 0, '紧急', '2', 'flow_level', '', '', 0, 1, 31, 0, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_data` VALUES (81, 0, '特急', '3', 'flow_level', '', '', 0, 1, 31, 31, '', NULL, '2021-07-20 08:55:25');
-INSERT INTO `sys_dict_data` VALUES (82, 0, '频道页', '1', 'sys_blog_type', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (83, 0, '发布栏目', '2', 'sys_blog_type', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (84, 0, '跳转栏目', '3', 'sys_blog_type', '', '', 0, 1, 31, 31, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (85, 0, '单页栏目', '4', 'sys_blog_type', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (87, 0, '[cms]文章表', 'cms_news', 'flow_type', '', '', 0, 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_data` VALUES (91, 0, '测试一下', '666', 'cms_article_type', '', '', 0, 1, 31, 0, '', '2021-08-03 17:04:12', '2021-08-03 17:04:12');
-INSERT INTO `sys_dict_data` VALUES (92, 0, '缓存测试222', '33333', 'cms_article_type', '', '', 0, 1, 31, 31, '', '2021-08-03 17:16:45', '2021-08-03 17:19:41');
-INSERT INTO `sys_dict_data` VALUES (93, 0, '缓存测试222', '11111', 'cms_article_type', '', '', 0, 1, 31, 31, '', '2021-08-03 17:26:14', '2021-08-03 17:26:26');
-INSERT INTO `sys_dict_data` VALUES (94, 0, '1折', '10', 'plugin_store_discount', '', '', 0, 1, 31, 0, '', '2021-08-14 11:59:38', '2021-08-14 11:59:38');
-INSERT INTO `sys_dict_data` VALUES (95, 0, '5折', '50', 'plugin_store_discount', '', '', 0, 1, 31, 0, '', '2021-08-14 11:59:49', '2021-08-14 11:59:49');
-INSERT INTO `sys_dict_data` VALUES (96, 0, '8折', '80', 'plugin_store_discount', '', '', 0, 1, 31, 0, '', '2021-08-14 12:00:00', '2021-08-14 12:00:00');
-INSERT INTO `sys_dict_data` VALUES (97, 0, '9折', '90', 'plugin_store_discount', '', '', 0, 1, 31, 0, '', '2021-08-14 12:00:07', '2021-08-14 12:00:07');
-INSERT INTO `sys_dict_data` VALUES (98, 0, '无折扣', '100', 'plugin_store_discount', '', '', 0, 1, 31, 0, '', '2021-08-14 12:00:16', '2021-08-14 12:00:16');
-INSERT INTO `sys_dict_data` VALUES (99, 0, '不显示', 'none', 'cms_nav_position', '', '', 1, 1, 22, 0, '', '2021-08-31 15:37:35', '2021-08-31 15:37:35');
-INSERT INTO `sys_dict_data` VALUES (100, 0, '顶部导航', 'top', 'cms_nav_position', '', '', 0, 1, 22, 0, '', '2021-08-31 15:37:57', '2021-08-31 15:37:57');
-INSERT INTO `sys_dict_data` VALUES (101, 0, '底部导航', 'bottom', 'cms_nav_position', '', '', 0, 1, 22, 0, '', '2021-08-31 15:38:08', '2021-08-31 15:38:08');
-INSERT INTO `sys_dict_data` VALUES (102, 0, '读取', 'GET', 'sys_oper_log_type', '', '', 0, 1, 31, 31, '', '2022-12-21 11:59:10', '2022-12-23 19:03:02');
-INSERT INTO `sys_dict_data` VALUES (103, 0, '新增', 'POST', 'sys_oper_log_type', '', '', 0, 1, 31, 31, '', '2022-12-21 11:59:22', '2022-12-23 19:03:10');
-INSERT INTO `sys_dict_data` VALUES (104, 0, '修改', 'PUT', 'sys_oper_log_type', '', '', 0, 1, 31, 31, '', '2022-12-21 11:59:32', '2022-12-23 19:03:19');
-INSERT INTO `sys_dict_data` VALUES (105, 0, '删除', 'DELETE', 'sys_oper_log_type', '', '', 0, 1, 31, 31, '', '2022-12-21 11:59:44', '2022-12-23 19:03:27');
+INSERT INTO `sys_dict_data` VALUES (200000000001, 0, '男', '1', 'sys_user_sex', '', '', 0, 200000000001, 200000000031, 200000000002, '备注信息', '2022-04-18 16:46:22', NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000002, 0, '女', '2', 'sys_user_sex', '', '', 0, 200000000001, 200000000031, 200000000031, '备注信息', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000003, 0, '保密', '0', 'sys_user_sex', '', '', 200000000001, 200000000001, 200000000031, 200000000031, '备注信息', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000024, 0, '频道页', '1', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '作为频道页，不可作为栏目发布文章，可添加下级分类', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (200000000025, 0, '发布栏目', '2', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '作为发布栏目，可添加文章', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (200000000026, 0, '跳转栏目', '3', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '不直接发布内容，用于跳转页面', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (200000000027, 0, '单页栏目', '4', 'cms_category_type', '', '', 0, 200000000001, 200000000031, 200000000031, '单页面模式，分类直接显示为文章', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_data` VALUES (200000000028, 0, '正常', '0', 'sys_job_status', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000029, 0, '暂停', '1', 'sys_job_status', '', 'default', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000030, 0, '默认', 'DEFAULT', 'sys_job_group', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000031, 0, '系统', 'SYSTEM', 'sys_job_group', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000032, 0, '成功', '1', 'admin_login_status', '', 'default', 0, 200000000001, 200000000031, 200000000031, '', NULL, '2022-09-16 15:26:01');
+INSERT INTO `sys_dict_data` VALUES (200000000033, 0, '失败', '0', 'admin_login_status', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, '2022-09-16 15:26:01');
+INSERT INTO `sys_dict_data` VALUES (200000000034, 0, '成功', '1', 'sys_oper_log_status', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000035, 0, '失败', '0', 'sys_oper_log_status', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000036, 0, '重复执行', '1', 'sys_job_policy', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000037, 0, '执行一次', '2', 'sys_job_policy', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000038, 0, '显示', '0', 'sys_show_hide', NULL, 'default', 200000000001, 200000000001, 200000000031, 0, NULL, NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000039, 0, '隐藏', '1', 'sys_show_hide', NULL, 'default', 0, 200000000001, 200000000031, 0, NULL, NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000040, 0, '正常', '1', 'sys_normal_disable', '', 'default', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000041, 0, '停用', '0', 'sys_normal_disable', '', 'default', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000049, 0, '是', '1', 'sys_yes_no', '', '', 200000000001, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000050, 0, '否', '0', 'sys_yes_no', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000051, 0, '已发布', '1', 'cms_article_pub_type', '', '', 200000000001, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000054, 0, '未发布', '0', 'cms_article_pub_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000055, 0, '置顶', '1', 'cms_article_attr', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000056, 0, '推荐', '2', 'cms_article_attr', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000057, 0, '普通文章', '0', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000058, 0, '跳转链接', '1', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000059, 0, 'cms模型', '6', 'cms_cate_models', '', '', 0, 200000000001, 200000000001, 200000000001, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000061, 0, '政府工作目标', '1', 'gov_cate_models', '', '', 0, 200000000001, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000062, 0, '系统后台', 'sys_admin', 'menu_module_type', '', '', 200000000001, 200000000001, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000063, 0, '政务工作', 'gov_work', 'menu_module_type', '', '', 0, 200000000001, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000064, 0, '幻灯', '3', 'cms_article_attr', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000065, 0, '[work]测试业务表', 'wf_news', 'flow_type', '', '', 0, 200000000001, 200000000002, 200000000002, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000066, 0, '回退修改', '-1', 'flow_status', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000067, 0, '保存中', '0', 'flow_status', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000068, 0, '流程中', '1', 'flow_status', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000069, 0, '审批通过', '2', 'flow_status', '', '', 0, 200000000001, 200000000031, 200000000002, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000070, 200000000002, '发布栏目', '2', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000071, 200000000003, '跳转栏目', '3', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000072, 200000000004, '单页栏目', '4', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000073, 200000000002, '置顶', '1', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000074, 200000000003, '幻灯', '2', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000075, 200000000004, '推荐', '3', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000076, 200000000001, '一般', '0', 'sys_log_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000077, 200000000001, '频道页', '1', 'sys_blog_sign', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000078, 0, '普通', '0', 'flow_level', '', '', 0, 200000000001, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_data` VALUES (200000000079, 0, '加急', '1', 'flow_level', '', '', 0, 200000000001, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_data` VALUES (200000000080, 0, '紧急', '2', 'flow_level', '', '', 0, 200000000001, 200000000031, 0, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_data` VALUES (200000000081, 0, '特急', '3', 'flow_level', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, '2021-07-20 08:55:25');
+INSERT INTO `sys_dict_data` VALUES (200000000082, 0, '频道页', '1', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000083, 0, '发布栏目', '2', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000084, 0, '跳转栏目', '3', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000085, 0, '单页栏目', '4', 'sys_blog_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000087, 0, '[cms]文章表', 'cms_news', 'flow_type', '', '', 0, 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (200000000091, 0, '测试一下', '666', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-03 17:04:12', '2021-08-03 17:04:12');
+INSERT INTO `sys_dict_data` VALUES (200000000092, 0, '缓存测试222', '33333', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2021-08-03 17:16:45', '2021-08-03 17:19:41');
+INSERT INTO `sys_dict_data` VALUES (200000000093, 0, '缓存测试222', '11111', 'cms_article_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2021-08-03 17:26:14', '2021-08-03 17:26:26');
+INSERT INTO `sys_dict_data` VALUES (200000000094, 0, '1折', '10', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 11:59:38', '2021-08-14 11:59:38');
+INSERT INTO `sys_dict_data` VALUES (200000000095, 0, '5折', '50', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 11:59:49', '2021-08-14 11:59:49');
+INSERT INTO `sys_dict_data` VALUES (200000000096, 0, '8折', '80', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 12:00:00', '2021-08-14 12:00:00');
+INSERT INTO `sys_dict_data` VALUES (200000000097, 0, '9折', '90', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 12:00:07', '2021-08-14 12:00:07');
+INSERT INTO `sys_dict_data` VALUES (200000000098, 0, '无折扣', '100', 'plugin_store_discount', '', '', 0, 200000000001, 200000000031, 0, '', '2021-08-14 12:00:16', '2021-08-14 12:00:16');
+INSERT INTO `sys_dict_data` VALUES (200000000099, 0, '不显示', 'none', 'cms_nav_position', '', '', 200000000001, 200000000001, 200000000022, 0, '', '2021-08-31 15:37:35', '2021-08-31 15:37:35');
+INSERT INTO `sys_dict_data` VALUES (200000000100, 0, '顶部导航', 'top', 'cms_nav_position', '', '', 0, 200000000001, 200000000022, 0, '', '2021-08-31 15:37:57', '2021-08-31 15:37:57');
+INSERT INTO `sys_dict_data` VALUES (200000000101, 0, '底部导航', 'bottom', 'cms_nav_position', '', '', 0, 200000000001, 200000000022, 0, '', '2021-08-31 15:38:08', '2021-08-31 15:38:08');
+INSERT INTO `sys_dict_data` VALUES (200000000102, 0, '读取', 'GET', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:10', '2022-12-23 19:03:02');
+INSERT INTO `sys_dict_data` VALUES (200000000103, 0, '新增', 'POST', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:22', '2022-12-23 19:03:10');
+INSERT INTO `sys_dict_data` VALUES (200000000104, 0, '修改', 'PUT', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:32', '2022-12-23 19:03:19');
+INSERT INTO `sys_dict_data` VALUES (200000000105, 0, '删除', 'DELETE', 'sys_oper_log_type', '', '', 0, 200000000001, 200000000031, 200000000031, '', '2022-12-21 11:59:44', '2022-12-23 19:03:27');
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -308,8 +310,8 @@ CREATE TABLE `sys_dict_type`  (
   `dict_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典名称',
   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '字典类型',
   `status` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '状态（0正常 1停用）',
-  `create_by` int(64) UNSIGNED NULL DEFAULT 0 COMMENT '创建者',
-  `update_by` int(64) UNSIGNED NULL DEFAULT 0 COMMENT '更新者',
+  `create_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '创建者',
+  `update_by` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '更新者',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `created_at` datetime NULL DEFAULT NULL COMMENT '创建日期',
   `updated_at` datetime NULL DEFAULT NULL COMMENT '修改日期',
@@ -320,30 +322,30 @@ CREATE TABLE `sys_dict_type`  (
 -- ----------------------------
 -- Records of sys_dict_type
 -- ----------------------------
-INSERT INTO `sys_dict_type` VALUES (1, '用户性别', 'sys_user_sex', 1, 31, 1, '用于选择用户性别', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (2, '分类类型', 'cms_category_type', 1, 31, 3, '文章分类类型', NULL, '2021-07-21 10:54:22');
-INSERT INTO `sys_dict_type` VALUES (3, '任务状态', 'sys_job_status', 1, 31, 31, '任务状态列表', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (13, '任务分组', 'sys_job_group', 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (14, '管理员登录状态', 'admin_login_status', 1, 31, 31, '', NULL, '2022-09-16 15:26:01');
-INSERT INTO `sys_dict_type` VALUES (15, '操作日志状态', 'sys_oper_log_status', 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (16, '任务策略', 'sys_job_policy', 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (17, '菜单状态', 'sys_show_hide', 1, 31, 0, '菜单状态', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (18, '系统开关', 'sys_normal_disable', 1, 31, 31, '系统开关', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (24, '系统内置', 'sys_yes_no', 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (25, '文章发布状态', 'cms_article_pub_type', 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (26, '文章附加状态', 'cms_article_attr', 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (27, '文章类型', 'cms_article_type', 1, 31, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (28, '文章栏目模型分类', 'cms_cate_models', 1, 1, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (29, '政务工作模型分类', 'gov_cate_models', 1, 2, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (30, '菜单模块类型', 'menu_module_type', 1, 2, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (31, '工作流程类型', 'flow_type', 1, 2, 0, '', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (32, '工作流程审批状态', 'flow_status', 1, 31, 0, '工作流程审批状态', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (33, '博客分类类型', 'sys_blog_type', 1, 31, 31, '博客分类中的标志', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (34, '博客日志标志', 'sys_log_sign', 1, 31, 0, '博客日志管理中的标志数据字典', NULL, NULL);
-INSERT INTO `sys_dict_type` VALUES (35, '工作流紧急状态', 'flow_level', 1, 31, 31, '', NULL, '2021-07-20 08:55:20');
-INSERT INTO `sys_dict_type` VALUES (48, '插件商城折扣', 'plugin_store_discount', 1, 31, 0, '', '2021-08-14 11:59:26', '2021-08-14 11:59:26');
-INSERT INTO `sys_dict_type` VALUES (49, 'CMS栏目导航位置', 'cms_nav_position', 1, 22, 0, '', '2021-08-31 15:37:04', '2021-08-31 15:37:04');
-INSERT INTO `sys_dict_type` VALUES (50, '操作日志类型', 'sys_oper_log_type', 1, 31, 0, '', '2022-12-21 11:55:02', '2022-12-21 11:55:02');
+INSERT INTO `sys_dict_type` VALUES (200000000001, '用户性别', 'sys_user_sex', 200000000001, 200000000031, 200000000001, '用于选择用户性别', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000002, '分类类型', 'cms_category_type', 200000000001, 200000000031, 200000000003, '文章分类类型', NULL, '2021-07-21 10:54:22');
+INSERT INTO `sys_dict_type` VALUES (200000000003, '任务状态', 'sys_job_status', 200000000001, 200000000031, 200000000031, '任务状态列表', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000013, '任务分组', 'sys_job_group', 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000014, '管理员登录状态', 'admin_login_status', 200000000001, 200000000031, 200000000031, '', NULL, '2022-09-16 15:26:01');
+INSERT INTO `sys_dict_type` VALUES (200000000015, '操作日志状态', 'sys_oper_log_status', 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000016, '任务策略', 'sys_job_policy', 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000017, '菜单状态', 'sys_show_hide', 200000000001, 200000000031, 0, '菜单状态', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000018, '系统开关', 'sys_normal_disable', 200000000001, 200000000031, 200000000031, '系统开关', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000024, '系统内置', 'sys_yes_no', 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000025, '文章发布状态', 'cms_article_pub_type', 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000026, '文章附加状态', 'cms_article_attr', 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000027, '文章类型', 'cms_article_type', 200000000001, 200000000031, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000028, '文章栏目模型分类', 'cms_cate_models', 200000000001, 200000000001, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000029, '政务工作模型分类', 'gov_cate_models', 200000000001, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000030, '菜单模块类型', 'menu_module_type', 200000000001, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000031, '工作流程类型', 'flow_type', 200000000001, 200000000002, 0, '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000032, '工作流程审批状态', 'flow_status', 200000000001, 200000000031, 0, '工作流程审批状态', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000033, '博客分类类型', 'sys_blog_type', 200000000001, 200000000031, 200000000031, '博客分类中的标志', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000034, '博客日志标志', 'sys_log_sign', 200000000001, 200000000031, 0, '博客日志管理中的标志数据字典', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (200000000035, '工作流紧急状态', 'flow_level', 200000000001, 200000000031, 200000000031, '', NULL, '2021-07-20 08:55:20');
+INSERT INTO `sys_dict_type` VALUES (200000000048, '插件商城折扣', 'plugin_store_discount', 200000000001, 200000000031, 0, '', '2021-08-14 11:59:26', '2021-08-14 11:59:26');
+INSERT INTO `sys_dict_type` VALUES (200000000049, 'CMS栏目导航位置', 'cms_nav_position', 200000000001, 200000000022, 0, '', '2021-08-31 15:37:04', '2021-08-31 15:37:04');
+INSERT INTO `sys_dict_type` VALUES (200000000050, '操作日志类型', 'sys_oper_log_type', 200000000001, 200000000031, 0, '', '2022-12-21 11:55:02', '2022-12-21 11:55:02');
 
 -- ----------------------------
 -- Table structure for sys_login_log
@@ -474,13 +476,13 @@ CREATE TABLE `sys_post`  (
 -- ----------------------------
 INSERT INTO `sys_post` VALUES (1, 'ceo', '董事长', 1, 1, '', 0, 0, '2021-07-11 11:32:58', NULL, NULL);
 INSERT INTO `sys_post` VALUES (2, 'se', '项目经理', 2, 1, '', 0, 0, '2021-07-12 11:01:26', NULL, NULL);
-INSERT INTO `sys_post` VALUES (3, 'hr', '人力资源', 3, 1, '', 0, 31, '2021-07-12 11:01:30', '2022-09-16 16:48:18', NULL);
-INSERT INTO `sys_post` VALUES (4, 'user', '普通员工', 4, 0, '普通员工', 0, 31, '2021-07-12 11:01:33', '2022-04-08 15:32:23', NULL);
-INSERT INTO `sys_post` VALUES (5, 'it', 'IT部', 5, 1, '信息部', 31, 31, '2021-07-12 11:09:42', '2022-04-09 12:59:12', NULL);
-INSERT INTO `sys_post` VALUES (6, '1111', '1111', 0, 1, '11111', 31, 0, '2022-04-08 15:32:44', '2022-04-08 15:32:44', '2022-04-08 15:51:24');
-INSERT INTO `sys_post` VALUES (7, '222', '2222', 0, 1, '22222', 31, 0, '2022-04-08 15:32:55', '2022-04-08 15:32:55', '2022-04-08 15:51:24');
-INSERT INTO `sys_post` VALUES (8, '33333', '3333', 0, 0, '33333', 31, 0, '2022-04-08 15:33:01', '2022-04-08 15:33:01', '2022-04-08 15:51:40');
-INSERT INTO `sys_post` VALUES (9, '222', '111', 0, 1, '2313213', 31, 0, '2022-04-08 15:52:53', '2022-04-08 15:52:53', '2022-04-08 15:52:56');
+INSERT INTO `sys_post` VALUES (3, 'hr', '人力资源', 3, 1, '', 0, 200000000031, '2021-07-12 11:01:30', '2022-09-16 16:48:18', NULL);
+INSERT INTO `sys_post` VALUES (4, 'user', '普通员工', 4, 0, '普通员工', 0, 200000000031, '2021-07-12 11:01:33', '2022-04-08 15:32:23', NULL);
+INSERT INTO `sys_post` VALUES (5, 'it', 'IT部', 5, 1, '信息部', 200000000031, 200000000031, '2021-07-12 11:09:42', '2022-04-09 12:59:12', NULL);
+INSERT INTO `sys_post` VALUES (6, '1111', '1111', 0, 1, '11111', 200000000031, 0, '2022-04-08 15:32:44', '2022-04-08 15:32:44', '2022-04-08 15:51:24');
+INSERT INTO `sys_post` VALUES (7, '222', '2222', 0, 1, '22222', 200000000031, 0, '2022-04-08 15:32:55', '2022-04-08 15:32:55', '2022-04-08 15:51:24');
+INSERT INTO `sys_post` VALUES (8, '33333', '3333', 0, 0, '33333', 200000000031, 0, '2022-04-08 15:33:01', '2022-04-08 15:33:01', '2022-04-08 15:51:40');
+INSERT INTO `sys_post` VALUES (9, '222', '111', 0, 1, '2313213', 200000000031, 0, '2022-04-08 15:52:53', '2022-04-08 15:52:53', '2022-04-08 15:52:56');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -533,7 +535,7 @@ INSERT INTO `sys_role_dept` VALUES (8, 106);
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `user_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户名',
   `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '中国手机不带国家代码，国际手机号格式为：国家代码-手机号',
   `user_nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
@@ -542,6 +544,8 @@ CREATE TABLE `sys_user`  (
   `user_salt` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '加密盐',
   `user_status` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户状态;0:禁用,1:正常,2:未验证',
   `user_email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户登录邮箱',
+  `google_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Google验证码密钥',
+  `google_status` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Google验证码状态;0未绑定 1已绑定',
   `sex` tinyint(2) NOT NULL DEFAULT 0 COMMENT '性别;0:保密,1:男,2:女',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户头像',
   `dept_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '部门id',
@@ -558,47 +562,47 @@ CREATE TABLE `sys_user`  (
   UNIQUE INDEX `user_login`(`user_name`, `deleted_at`) USING BTREE,
   UNIQUE INDEX `mobile`(`mobile`, `deleted_at`) USING BTREE,
   INDEX `user_nickname`(`user_nickname`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '13578342363', '超级管理员', 0, 'c567ae329f9929b518759d3bea13f492', 'f9aZTAa8yz', 1, 'yxh669@qq.com', 1, 'https://yxh-1301841944.cos.ap-chongqing.myqcloud.com/gfast/2021-07-19/ccwpeuqz1i2s769hua.jpeg', 101, '', 1, 'asdasfdsaf大发放打发士大夫发按时', '描述信息', '::1', '2022-10-26 03:01:52', '2021-06-22 17:58:00', '2022-11-03 15:44:38', NULL);
-INSERT INTO `sys_user` VALUES (2, 'yixiaohu', '13699885599', '奈斯', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'yxh@qq.com', 1, 'upload_file/2022-11-04/co3e5ljknns8jhlp8s.jpg', 102, '备注', 1, '', '', '::1', '2022-11-04 09:54:56', '2021-06-22 17:58:00', '2022-11-04 17:54:56', NULL);
-INSERT INTO `sys_user` VALUES (3, 'zs', '16399669855', '张三', 0, '41e3778c20338f4d7d6cc886fd3b2a52', 'redoHIj524', 1, 'zs@qq.com', 0, 'https://yxh-1301841944.cos.ap-chongqing.myqcloud.com/gfast/2021-08-02/cd8nif79egjg9kbkgk.jpeg', 101, '', 1, '', '', '::1', '2022-04-28 10:01:47', '2021-06-22 17:58:00', '2022-04-28 10:01:47', NULL);
-INSERT INTO `sys_user` VALUES (4, 'qlgl', '13758596696', '测试c', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'qlgl@qq.com', 0, '', 102, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-11-03 15:44:20', NULL);
-INSERT INTO `sys_user` VALUES (5, 'test', '13845696696', '测试2', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '123@qq.com', 0, '', 101, '', 0, '', '', '::1', '2022-03-30 10:50:39', '2021-06-22 17:58:00', '2022-11-03 15:44:10', NULL);
-INSERT INTO `sys_user` VALUES (6, '18999998889', '13755866654', '刘大大', 0, '5df78d20315a5af61f45d20f72c184fc', 'lC6OoXDCbM', 1, '1223@qq.com', 0, '', 103, '', 1, '', '', '[::1]', '2022-02-25 14:29:22', '2021-06-22 17:58:00', '2022-11-03 17:05:07', NULL);
-INSERT INTO `sys_user` VALUES (7, 'zmm', '13788566696', '张明明', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '11123@qq.com', 0, '', 104, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:55:42', NULL);
-INSERT INTO `sys_user` VALUES (8, 'lxx', '13756566696', '李小小', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '123333@qq.com', 0, '', 101, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:55:45', NULL);
-INSERT INTO `sys_user` VALUES (10, 'xmm', '13588999969', '小秘密', 0, '2de2a8df703bfc634cfda2cb2f6a59be', 'Frz7LJY7SE', 1, '696@qq.com', 0, '', 101, '', 1, '', '', '[::1]', '2021-07-22 17:08:53', '2021-06-22 17:58:00', '2022-04-12 17:55:50', NULL);
-INSERT INTO `sys_user` VALUES (14, 'cd_19', '13699888899', '看金利科技', 0, '1169d5fe4119fd4277a95f02d7036171', '7paigEoedh', 1, '', 0, '', 102, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2022-04-12 18:13:22', NULL);
-INSERT INTO `sys_user` VALUES (15, 'lmm', '13587754545', '刘敏敏', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'a@coc.com', 0, '', 201, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:56:23', NULL);
-INSERT INTO `sys_user` VALUES (16, 'ldn', '13899658874', '李大牛', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'a@ll.con', 0, '', 102, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:56:27', NULL);
-INSERT INTO `sys_user` VALUES (20, 'dbc', '13877555566', '大百词', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', 0, '', 0, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (22, 'yxfmlbb', '15969423326', '大数据部门测试', 0, '66f89b40ee4a10aabaf70c15756429ea', 'mvd2OtUe8f', 1, 'yxh6691@qq.com', 0, 'https://yxh-1301841944.cos.ap-chongqing.myqcloud.com/gfast/2021-09-29/cem20k3fdciosy7nwo.jpeg', 200, '', 1, '2222233', '1222', '[::1]', '2021-10-28 11:36:07', '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (23, 'wangming', '13699888855', '王明', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', 0, '', 0, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (24, 'zhk', '13699885591', '综合科', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', 0, '', 0, '', 1, '', '', '192.168.0.146', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (28, 'demo3', '18699888855', '测试账号1', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '123132@qq.com', 0, '', 109, '', 1, '', '', '192.168.0.229', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (31, 'demo', '15334455789', '李四', 0, '6dd68eea81e0fca319add0bd58c3fdf6', '46PvWe1Sl7', 1, '123@qq.com', 2, 'upload_file/2022-11-11/co9copop81co0gysbz.jpg', 109, '3', 1, '云南省曲靖市22223', '生活变的再糟糕，也不妨碍我变得更好', '::1', '2023-01-19 10:17:18', '2021-06-22 17:58:00', '2022-11-11 17:25:27', NULL);
-INSERT INTO `sys_user` VALUES (32, 'demo100', '18699888859', '测试账号1', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', 0, '', 0, '', 1, '', '', '[::1]', '2021-11-24 18:01:21', '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (33, 'demo110', '18699888853', '测试账号1', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', 0, '', 0, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (34, 'yxfmlbb2', '15969423327', '研发部门测试', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '1111@qqq.com', 1, '', 103, '', 0, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (35, 'wk666', '18888888888', 'wk', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '396861557@qq.com', 1, '', 100, '', 1, '', '', '[::1]', '2021-12-09 14:52:37', '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (36, 'zxd', '13699885565', '张晓东', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'zxk@qq.com', 1, '', 201, '666', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
-INSERT INTO `sys_user` VALUES (37, 'yxfmlbb3', '13513513511', '张三', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '111@qq.com', 0, '', 204, '', 1, '', '', '[::1]', '2021-07-26 14:49:25', '2021-06-22 17:58:00', '2021-07-26 14:49:18', NULL);
-INSERT INTO `sys_user` VALUES (38, 'test_user', '18888888880', 'test', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '11@qq.com', 1, '', 200, '111', 0, '', '', '', NULL, '2021-06-22 17:58:00', '2021-07-12 22:05:29', NULL);
-INSERT INTO `sys_user` VALUES (39, 'asan', '18687460555', '阿三', 0, '2354837137115700e2adf870ac113dcf', 'drdDvbtYZW', 1, '456654@qq.com', 1, '', 201, '666666', 1, '', '', '', NULL, '2021-07-12 17:21:43', '2021-07-12 21:13:31', '2021-07-12 22:00:44');
-INSERT INTO `sys_user` VALUES (40, 'asi', '13655888888', '啊四', 0, 'fbb755b35d48759dad47bb1540249fd1', '9dfUstcxrz', 1, '5464@qq.com', 1, '', 201, 'adsaasd', 1, '', '', '', NULL, '2021-07-12 17:46:27', '2021-07-12 21:29:41', '2021-07-12 22:00:44');
-INSERT INTO `sys_user` VALUES (41, 'awu', '13578556546', '阿五', 0, '3b36a96afa0dfd66aa915e0816e0e9f6', '9gHRa9ho4U', 0, '132321@qq.com', 1, '', 201, 'asdasdasd', 1, '', '', '', NULL, '2021-07-12 17:54:31', '2021-07-12 21:46:34', '2021-07-12 21:59:56');
-INSERT INTO `sys_user` VALUES (42, 'demo01', '13699888556', '测试01222', 0, '048dc94116558fb40920f3553ecd5fe8', 'KiVrfzKJQx', 1, '456@qq.com', 2, '', 109, '测试用户', 1, '', '', '', NULL, '2022-04-12 16:15:23', '2022-04-12 17:54:49', NULL);
+INSERT INTO `sys_user` VALUES (200000000001, 'admin', '13578342363', '超级管理员', 0, 'c567ae329f9929b518759d3bea13f492', 'f9aZTAa8yz', 1, 'yxh669@qq.com', '', 0, 1, 'https://yxh-1301841944.cos.ap-chongqing.myqcloud.com/gfast/2021-07-19/ccwpeuqz1i2s769hua.jpeg', 101, '', 1, 'asdasfdsaf大发放打发士大夫发按时', '描述信息', '::1', '2022-10-26 03:01:52', '2021-06-22 17:58:00', '2022-11-03 15:44:38', NULL);
+INSERT INTO `sys_user` VALUES (200000000002, 'yixiaohu', '13699885599', '奈斯', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'yxh@qq.com', '', 0, 1, 'upload_file/2022-11-04/co3e5ljknns8jhlp8s.jpg', 102, '备注', 1, '', '', '::1', '2022-11-04 09:54:56', '2021-06-22 17:58:00', '2022-11-04 17:54:56', NULL);
+INSERT INTO `sys_user` VALUES (200000000003, 'zs', '16399669855', '张三', 0, '41e3778c20338f4d7d6cc886fd3b2a52', 'redoHIj524', 1, 'zs@qq.com', '', 0, 0, 'https://yxh-1301841944.cos.ap-chongqing.myqcloud.com/gfast/2021-08-02/cd8nif79egjg9kbkgk.jpeg', 101, '', 1, '', '', '::1', '2022-04-28 10:01:47', '2021-06-22 17:58:00', '2022-04-28 10:01:47', NULL);
+INSERT INTO `sys_user` VALUES (200000000004, 'qlgl', '13758596696', '测试c', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'qlgl@qq.com', '', 0, 0, '', 102, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-11-03 15:44:20', NULL);
+INSERT INTO `sys_user` VALUES (200000000005, 'test', '13845696696', '测试2', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '123@qq.com', '', 0, 0, '', 101, '', 0, '', '', '::1', '2022-03-30 10:50:39', '2021-06-22 17:58:00', '2022-11-03 15:44:10', NULL);
+INSERT INTO `sys_user` VALUES (200000000006, '18999998889', '13755866654', '刘大大', 0, '5df78d20315a5af61f45d20f72c184fc', 'lC6OoXDCbM', 1, '1223@qq.com', '', 0, 0, '', 103, '', 1, '', '', '[::1]', '2022-02-25 14:29:22', '2021-06-22 17:58:00', '2022-11-03 17:05:07', NULL);
+INSERT INTO `sys_user` VALUES (200000000007, 'zmm', '13788566696', '张明明', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '11123@qq.com', '', 0, 0, '', 104, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:55:42', NULL);
+INSERT INTO `sys_user` VALUES (200000000008, 'lxx', '13756566696', '李小小', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '123333@qq.com', '', 0, 0, '', 101, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:55:45', NULL);
+INSERT INTO `sys_user` VALUES (200000000010, 'xmm', '13588999969', '小秘密', 0, '2de2a8df703bfc634cfda2cb2f6a59be', 'Frz7LJY7SE', 1, '696@qq.com', '', 0, 0, '', 101, '', 1, '', '', '[::1]', '2021-07-22 17:08:53', '2021-06-22 17:58:00', '2022-04-12 17:55:50', NULL);
+INSERT INTO `sys_user` VALUES (200000000014, 'cd_19', '13699888899', '看金利科技', 0, '1169d5fe4119fd4277a95f02d7036171', '7paigEoedh', 1, '', '', 0, 0, '', 102, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2022-04-12 18:13:22', NULL);
+INSERT INTO `sys_user` VALUES (200000000015, 'lmm', '13587754545', '刘敏敏', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'a@coc.com', '', 0, 0, '', 201, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:56:23', NULL);
+INSERT INTO `sys_user` VALUES (200000000016, 'ldn', '13899658874', '李大牛', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'a@ll.con', '', 0, 0, '', 102, '', 1, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2022-04-12 17:56:27', NULL);
+INSERT INTO `sys_user` VALUES (200000000020, 'dbc', '13877555566', '大百词', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', '', 0, 0, '', 0, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000022, 'yxfmlbb', '15969423326', '大数据部门测试', 0, '66f89b40ee4a10aabaf70c15756429ea', 'mvd2OtUe8f', 1, 'yxh6691@qq.com', '', 0, 0, 'https://yxh-1301841944.cos.ap-chongqing.myqcloud.com/gfast/2021-09-29/cem20k3fdciosy7nwo.jpeg', 200, '', 1, '2222233', '1222', '[::1]', '2021-10-28 11:36:07', '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000023, 'wangming', '13699888855', '王明', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', '', 0, 0, '', 0, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000024, 'zhk', '13699885591', '综合科', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', '', 0, 0, '', 0, '', 1, '', '', '192.168.0.146', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000028, 'demo3', '18699888855', '测试账号1', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '123132@qq.com', '', 0, 0, '', 109, '', 1, '', '', '192.168.0.229', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000031, 'demo', '15334455789', '李四', 0, '6dd68eea81e0fca319add0bd58c3fdf6', '46PvWe1Sl7', 1, '123@qq.com', '', 0, 2, 'upload_file/2022-11-11/co9copop81co0gysbz.jpg', 109, '3', 1, '云南省曲靖市22223', '生活变的再糟糕，也不妨碍我变得更好', '::1', '2023-01-19 10:17:18', '2021-06-22 17:58:00', '2022-11-11 17:25:27', NULL);
+INSERT INTO `sys_user` VALUES (200000000032, 'demo100', '18699888859', '测试账号1', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', '', 0, 0, '', 0, '', 1, '', '', '[::1]', '2021-11-24 18:01:21', '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000033, 'demo110', '18699888853', '测试账号1', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '', '', 0, 0, '', 0, '', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000034, 'yxfmlbb2', '15969423327', '研发部门测试', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '1111@qqq.com', '', 0, 1, '', 103, '', 0, '', '', '127.0.0.1', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000035, 'wk666', '18888888888', 'wk', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '396861557@qq.com', '', 0, 1, '', 100, '', 1, '', '', '[::1]', '2021-12-09 14:52:37', '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000036, 'zxd', '13699885565', '张晓东', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, 'zxk@qq.com', '', 0, 1, '', 201, '666', 1, '', '', '', NULL, '2021-06-22 17:58:00', '2021-06-22 17:58:00', NULL);
+INSERT INTO `sys_user` VALUES (200000000037, 'yxfmlbb3', '13513513511', '张三', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '111@qq.com', '', 0, 0, '', 204, '', 1, '', '', '[::1]', '2021-07-26 14:49:25', '2021-06-22 17:58:00', '2021-07-26 14:49:18', NULL);
+INSERT INTO `sys_user` VALUES (200000000038, 'test_user', '18888888880', 'test', 0, '542a6e44dbac171f260fc4a032cd5522', 'dlqVVBTADg', 1, '11@qq.com', '', 0, 1, '', 200, '111', 0, '', '', '', NULL, '2021-06-22 17:58:00', '2021-07-12 22:05:29', NULL);
+INSERT INTO `sys_user` VALUES (200000000039, 'asan', '18687460555', '阿三', 0, '2354837137115700e2adf870ac113dcf', 'drdDvbtYZW', 1, '456654@qq.com', '', 0, 1, '', 201, '666666', 1, '', '', '', NULL, '2021-07-12 17:21:43', '2021-07-12 21:13:31', '2021-07-12 22:00:44');
+INSERT INTO `sys_user` VALUES (200000000040, 'asi', '13655888888', '啊四', 0, 'fbb755b35d48759dad47bb1540249fd1', '9dfUstcxrz', 1, '5464@qq.com', '', 0, 1, '', 201, 'adsaasd', 1, '', '', '', NULL, '2021-07-12 17:46:27', '2021-07-12 21:29:41', '2021-07-12 22:00:44');
+INSERT INTO `sys_user` VALUES (200000000041, 'awu', '13578556546', '阿五', 0, '3b36a96afa0dfd66aa915e0816e0e9f6', '9gHRa9ho4U', 0, '132321@qq.com', '', 0, 1, '', 201, 'asdasdasd', 1, '', '', '', NULL, '2021-07-12 17:54:31', '2021-07-12 21:46:34', '2021-07-12 21:59:56');
+INSERT INTO `sys_user` VALUES (200000000042, 'demo01', '13699888556', '测试01222', 0, '048dc94116558fb40920f3553ecd5fe8', 'KiVrfzKJQx', 1, '456@qq.com', '', 0, 2, '', 109, '测试用户', 1, '', '', '', NULL, '2022-04-12 16:15:23', '2022-04-12 17:54:49', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_online
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_online`;
 CREATE TABLE `sys_user_online`  (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `uuid` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT '' COMMENT '用户标识',
   `token` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT '' COMMENT '用户token',
   `create_time` datetime NULL DEFAULT NULL COMMENT '登录时间',
@@ -629,32 +633,77 @@ CREATE TABLE `sys_user_post`  (
 -- ----------------------------
 -- Records of sys_user_post
 -- ----------------------------
-INSERT INTO `sys_user_post` VALUES (1, 2);
-INSERT INTO `sys_user_post` VALUES (1, 3);
-INSERT INTO `sys_user_post` VALUES (2, 1);
-INSERT INTO `sys_user_post` VALUES (2, 2);
-INSERT INTO `sys_user_post` VALUES (3, 2);
-INSERT INTO `sys_user_post` VALUES (4, 1);
-INSERT INTO `sys_user_post` VALUES (5, 2);
-INSERT INTO `sys_user_post` VALUES (10, 1);
-INSERT INTO `sys_user_post` VALUES (10, 2);
-INSERT INTO `sys_user_post` VALUES (10, 3);
-INSERT INTO `sys_user_post` VALUES (10, 4);
-INSERT INTO `sys_user_post` VALUES (10, 5);
-INSERT INTO `sys_user_post` VALUES (14, 1);
-INSERT INTO `sys_user_post` VALUES (15, 4);
-INSERT INTO `sys_user_post` VALUES (16, 2);
-INSERT INTO `sys_user_post` VALUES (22, 1);
-INSERT INTO `sys_user_post` VALUES (22, 2);
-INSERT INTO `sys_user_post` VALUES (31, 2);
-INSERT INTO `sys_user_post` VALUES (34, 1);
-INSERT INTO `sys_user_post` VALUES (35, 2);
-INSERT INTO `sys_user_post` VALUES (35, 3);
-INSERT INTO `sys_user_post` VALUES (36, 1);
-INSERT INTO `sys_user_post` VALUES (37, 3);
-INSERT INTO `sys_user_post` VALUES (38, 2);
-INSERT INTO `sys_user_post` VALUES (38, 3);
-INSERT INTO `sys_user_post` VALUES (42, 2);
-INSERT INTO `sys_user_post` VALUES (42, 3);
+INSERT INTO `sys_user_post` VALUES (200000000001, 2);
+INSERT INTO `sys_user_post` VALUES (200000000001, 3);
+INSERT INTO `sys_user_post` VALUES (200000000002, 1);
+INSERT INTO `sys_user_post` VALUES (200000000002, 2);
+INSERT INTO `sys_user_post` VALUES (200000000003, 2);
+INSERT INTO `sys_user_post` VALUES (200000000004, 1);
+INSERT INTO `sys_user_post` VALUES (200000000005, 2);
+INSERT INTO `sys_user_post` VALUES (200000000010, 1);
+INSERT INTO `sys_user_post` VALUES (200000000010, 2);
+INSERT INTO `sys_user_post` VALUES (200000000010, 3);
+INSERT INTO `sys_user_post` VALUES (200000000010, 4);
+INSERT INTO `sys_user_post` VALUES (200000000010, 5);
+INSERT INTO `sys_user_post` VALUES (200000000014, 1);
+INSERT INTO `sys_user_post` VALUES (200000000015, 4);
+INSERT INTO `sys_user_post` VALUES (200000000016, 2);
+INSERT INTO `sys_user_post` VALUES (200000000022, 1);
+INSERT INTO `sys_user_post` VALUES (200000000022, 2);
+INSERT INTO `sys_user_post` VALUES (200000000031, 2);
+INSERT INTO `sys_user_post` VALUES (200000000034, 1);
+INSERT INTO `sys_user_post` VALUES (200000000035, 2);
+INSERT INTO `sys_user_post` VALUES (200000000035, 3);
+INSERT INTO `sys_user_post` VALUES (200000000036, 1);
+INSERT INTO `sys_user_post` VALUES (200000000037, 3);
+INSERT INTO `sys_user_post` VALUES (200000000038, 2);
+INSERT INTO `sys_user_post` VALUES (200000000038, 3);
+INSERT INTO `sys_user_post` VALUES (200000000042, 2);
+INSERT INTO `sys_user_post` VALUES (200000000042, 3);
+
+
+-- ----------------------------
+-- Table structure for notice_message
+-- ----------------------------
+DROP TABLE IF EXISTS `notice_message`;
+CREATE TABLE `notice_message` (
+  `id` BIGINT UNSIGNED NOT NULL COMMENT '??ID',
+  `title` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '????',
+  `content` TEXT NULL COMMENT '????',
+  `notice_type` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '????',
+  `target_type` VARCHAR(32) NOT NULL DEFAULT 'user' COMMENT '????',
+  `target_value` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '???',
+  `link_url` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '????',
+  `payload_json` JSON NULL COMMENT '????JSON',
+  `status` TINYINT NOT NULL DEFAULT 1 COMMENT '??',
+  `created_at` DATETIME NULL DEFAULT NULL COMMENT '????',
+  PRIMARY KEY (`id`),
+  KEY `idx_notice_message_type` (`notice_type`, `created_at`),
+  KEY `idx_notice_message_target` (`target_type`, `target_value`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='?????';
+
+-- ----------------------------
+-- Table structure for notice_user
+-- ----------------------------
+DROP TABLE IF EXISTS `notice_user`;
+CREATE TABLE `notice_user` (
+  `id` BIGINT UNSIGNED NOT NULL COMMENT '????ID',
+  `notice_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '??ID',
+  `user_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '??ID',
+  `read_status` TINYINT NOT NULL DEFAULT 0 COMMENT '????',
+  `read_at` DATETIME NULL DEFAULT NULL COMMENT '????',
+  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '????',
+  `created_at` DATETIME NULL DEFAULT NULL COMMENT '????',
+  PRIMARY KEY (`id`),
+  KEY `idx_notice_user` (`user_id`, `read_status`, `created_at`),
+  KEY `idx_notice_user_notice` (`notice_id`),
+  KEY `idx_notice_user_deleted` (`deleted_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='???????';
+
+INSERT INTO `sys_auth_rule` VALUES (1040, 0, 'api/v1/system/notice', '????', 'ele-Bell', 'nocheck', '', 0, 70, 0, '/system/notice', 'layout/routerView/parent', 0, '', 0, 0, 1, '/system/notice/list', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1041, 1040, 'api/v1/system/notice/list', '????', 'ele-Message', 'nocheck', '', 1, 0, 0, '/system/notice/list', 'system/notice/index', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1042, 1041, 'api/v1/system/notice/send', '????', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1043, 1041, 'api/v1/system/notice/delete', '????', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
+INSERT INTO `sys_auth_rule` VALUES (1044, 1041, 'api/v1/system/notice/user-list', '????', '', 'nocheck', '', 2, 0, 0, '', '', 0, '', 0, 0, 1, '', 0, '', NOW(), NOW());
 
 SET FOREIGN_KEY_CHECKS = 1;

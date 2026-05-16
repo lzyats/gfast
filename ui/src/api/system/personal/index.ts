@@ -25,4 +25,25 @@ export function resetPwdPersonal(data:object) {
     })
 }
 
+export function generateGoogleAuth() {
+    return request({
+        url: '/api/v1/system/personal/google/generate',
+        method: 'get',
+    })
+}
 
+export function bindGoogleAuth(data:object) {
+    return request({
+        url: '/api/v1/system/personal/google/bind',
+        method: 'put',
+        data:data
+    })
+}
+
+export function unbindGoogleAuth(data:object) {
+    return request({
+        url: '/api/v1/system/personal/google/unbind',
+        method: 'put',
+        data:data
+    })
+}

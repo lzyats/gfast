@@ -17,6 +17,9 @@ type (
 		GetPersonalInfo(ctx context.Context, req *system.PersonalInfoReq) (res *system.PersonalInfoRes, err error)
 		EditPersonal(ctx context.Context, req *system.PersonalEditReq) (user *model.LoginUserRes, err error)
 		ResetPwdPersonal(ctx context.Context, req *system.PersonalResetPwdReq) (res *system.PersonalResetPwdRes, err error)
+		GenerateGoogleAuth(ctx context.Context, req *system.PersonalGoogleGenerateReq) (res *system.PersonalGoogleGenerateRes, err error)
+		BindGoogleAuth(ctx context.Context, req *system.PersonalGoogleBindReq) (res *system.PersonalGoogleBindRes, err error)
+		UnbindGoogleAuth(ctx context.Context, req *system.PersonalGoogleUnbindReq) (res *system.PersonalGoogleUnbindRes, err error)
 	}
 )
 

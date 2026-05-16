@@ -60,6 +60,18 @@ func (c *loginController) Login(ctx context.Context, req *system.UserLoginReq) (
 		})
 		return
 	}
+	if user.GoogleStatus == 1 && !libUtils.VerifyTOTP(user.GoogleSecret, req.GoogleCode) {
+		err = gerror.New("Google验证码错误")
+		service.SysLoginLog().Invoke(gctx.New(), &model.LoginLogParams{
+			Status:    0,
+			Username:  req.Username,
+			Ip:        ip,
+			UserAgent: userAgent,
+			Msg:       err.Error(),
+			Module:    "绯荤粺鍚庡彴",
+		})
+		return
+	}
 	err = service.SysUser().UpdateLoginInfo(ctx, user.Id, ip)
 	if err != nil {
 		return

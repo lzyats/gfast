@@ -43,8 +43,8 @@ type (
 		GetUserPostIds(ctx context.Context, userId uint64) (postIds []int64, err error)
 		ResetUserPwd(ctx context.Context, req *system.UserResetPwdReq) (err error)
 		ChangeUserStatus(ctx context.Context, req *system.UserStatusReq) (err error)
-		Delete(ctx context.Context, ids []int) (err error)
-		GetUsers(ctx context.Context, ids []int) (users []*model.SysUserSimpleRes, err error)
+		Delete(ctx context.Context, ids []uint64) (err error)
+		GetUsers(ctx context.Context, ids []uint64) (users []*model.SysUserSimpleRes, err error)
 	}
 )
 

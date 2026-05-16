@@ -73,12 +73,14 @@ func (s *sSysConfig) Add(ctx context.Context, req *system.ConfigAddReq, userId u
 		err = s.CheckConfigKeyUnique(ctx, req.ConfigKey)
 		liberr.ErrIsNil(ctx, err)
 		_, err = dao.SysConfig.Ctx(ctx).Insert(do.SysConfig{
-			ConfigName:  req.ConfigName,
-			ConfigKey:   req.ConfigKey,
-			ConfigValue: req.ConfigValue,
-			ConfigType:  req.ConfigType,
-			CreateBy:    userId,
-			Remark:      req.Remark,
+			ConfigName:      req.ConfigName,
+			ConfigKey:       req.ConfigKey,
+			ConfigValue:     req.ConfigValue,
+			ConfigType:      req.ConfigType,
+			ConfigValueType: req.ConfigValueType,
+			ConfigOptions:   req.ConfigOptions,
+			CreateBy:        userId,
+			Remark:          req.Remark,
 		})
 		liberr.ErrIsNil(ctx, err, "添加系统参数失败")
 		//清除缓存
@@ -120,12 +122,14 @@ func (s *sSysConfig) Edit(ctx context.Context, req *system.ConfigEditReq, userId
 		err = s.CheckConfigKeyUnique(ctx, req.ConfigKey, req.ConfigId)
 		liberr.ErrIsNil(ctx, err)
 		_, err = dao.SysConfig.Ctx(ctx).WherePri(req.ConfigId).Update(do.SysConfig{
-			ConfigName:  req.ConfigName,
-			ConfigKey:   req.ConfigKey,
-			ConfigValue: req.ConfigValue,
-			ConfigType:  req.ConfigType,
-			UpdateBy:    userId,
-			Remark:      req.Remark,
+			ConfigName:      req.ConfigName,
+			ConfigKey:       req.ConfigKey,
+			ConfigValue:     req.ConfigValue,
+			ConfigType:      req.ConfigType,
+			ConfigValueType: req.ConfigValueType,
+			ConfigOptions:   req.ConfigOptions,
+			UpdateBy:        userId,
+			Remark:          req.Remark,
 		})
 		liberr.ErrIsNil(ctx, err, "修改系统参数失败")
 		//清除缓存

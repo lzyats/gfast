@@ -156,6 +156,21 @@
           <div class="personal-edit-safe-box">
             <div class="personal-edit-safe-item">
               <div class="personal-edit-safe-item-left">
+                <div class="personal-edit-safe-item-left-label">Google 验证码</div>
+                <div class="personal-edit-safe-item-left-value">
+                  {{ personalForm.googleStatus === 1 ? '已绑定，登录时必须填写动态验证码' : '未绑定' }}
+                </div>
+              </div>
+              <div class="personal-edit-safe-item-right">
+                <el-button text type="primary" @click="personalForm.googleStatus === 1 ? handleUnbindGoogle() : handleOpenGoogleBind()">
+                  {{ personalForm.googleStatus === 1 ? '解除绑定' : '立即绑定' }}
+                </el-button>
+              </div>
+            </div>
+          </div>
+          <div class="personal-edit-safe-box">
+            <div class="personal-edit-safe-item">
+              <div class="personal-edit-safe-item-left">
                 <div class="personal-edit-safe-item-left-label">账户密码</div>
                 <div class="personal-edit-safe-item-left-value">当前密码强度：强</div>
               </div>
@@ -200,21 +215,30 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-dialog title="绑定 Google 验证码" v-model="googleDialogVisible" width="420px">
+      <div ref="googleQrRef" class="google-qr"></div>
+      <el-input v-model="googleForm.code" maxlength="6" placeholder="请输入动态验证码" class="mt15" />
+      <template #footer>
+        <el-button @click="googleDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleBindGoogle">确认绑定</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed, defineComponent,getCurrentInstance,onMounted } from 'vue';
+import { toRefs, reactive, computed, defineComponent,getCurrentInstance,onMounted, nextTick, ref } from 'vue';
 import { formatAxis } from '/@/utils/formatTime';
 import { storeToRefs } from 'pinia';
 import { useUserInfo } from '/@/stores/userInfo';
-import {getPersonalInfo, editPersonal, resetPwdPersonal} from "/@/api/system/personal";
+import {getPersonalInfo, editPersonal, resetPwdPersonal, generateGoogleAuth, bindGoogleAuth, unbindGoogleAuth} from "/@/api/system/personal";
 import type { UploadProps } from 'element-plus'
 import {ElMessage} from "element-plus";
 import {ElMessageBox} from 'element-plus'
 import {getToken} from "/@/utils/gfast"
 import { newsInfoList, recommendList } from './mock';
 import {Session} from "/@/utils/storage";
+import QRCode from 'qrcodejs2-fixes';
 // 定义接口来定义对象的类型
 interface PersonalState {
   imageUrl:'',
@@ -223,6 +247,8 @@ interface PersonalState {
   personalForm: any;
   newsInfoList: any;
   recommendList: any;
+  googleDialogVisible: boolean;
+  googleForm: any;
 }
 
 export default defineComponent({
@@ -231,6 +257,7 @@ export default defineComponent({
     const baseURL:string|undefined|boolean = import.meta.env.VITE_API_URL
     const {proxy} = <any>getCurrentInstance();
     const stores = useUserInfo();
+    const googleQrRef = ref();
     const { userInfos } = storeToRefs(stores);
     const dataParam = reactive({
       token:getToken(),
@@ -250,7 +277,14 @@ export default defineComponent({
         remark:'',
         avatar:'',
         lastLoginIp:'',
-        lastLoginTime:''
+        lastLoginTime:'',
+        googleStatus: 0
+      },
+      googleDialogVisible: false,
+      googleForm: {
+        secret: '',
+        qrUrl: '',
+        code: '',
       },
     });
 
@@ -300,6 +334,42 @@ export default defineComponent({
         });
       }).catch(() => {});
     };
+    const handleOpenGoogleBind = () => {
+      generateGoogleAuth().then((res:any) => {
+        state.googleForm.secret = res.data.secret;
+        state.googleForm.qrUrl = res.data.qrUrl;
+        state.googleForm.code = '';
+        state.googleDialogVisible = true;
+        nextTick(() => {
+          if (googleQrRef.value) {
+            googleQrRef.value.innerHTML = '';
+            new QRCode(googleQrRef.value, {
+              text: state.googleForm.qrUrl,
+              width: 180,
+              height: 180,
+            });
+          }
+        });
+      });
+    };
+    const handleBindGoogle = () => {
+      bindGoogleAuth({ secret: state.googleForm.secret, code: state.googleForm.code }).then(() => {
+        ElMessage.success('Google 验证码绑定成功');
+        state.googleDialogVisible = false;
+        initUserInfo();
+      });
+    };
+    const handleUnbindGoogle = () => {
+      ElMessageBox.prompt('请输入 Google 动态验证码', '解除绑定', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        unbindGoogleAuth({ code: value }).then(() => {
+          ElMessage.success('Google 验证码已解除绑定');
+          initUserInfo();
+        });
+      }).catch(() => {});
+    };
     // 初始化用户数据
     const initUserInfo = () => {
       getPersonalInfo().then((res:any)=>{
@@ -314,7 +384,8 @@ export default defineComponent({
           remark:user.remark,
           avatar:user.avatar,
           lastLoginIp:user.lastLoginIp,
-          lastLoginTime:user.lastLoginTime
+          lastLoginTime:user.lastLoginTime,
+          googleStatus:user.googleStatus || 0
         }
         state.deptName = res.data.deptName;
         state.roles = res.data.roles;
@@ -332,8 +403,12 @@ export default defineComponent({
       currentTime,
       handleUpload,
       handleEditPass,
+      handleOpenGoogleBind,
+      handleBindGoogle,
+      handleUnbindGoogle,
       handleAvatarSuccess,
       dataParam,
+      googleQrRef,
       ...toRefs(state),
     };
   },

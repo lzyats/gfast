@@ -19,27 +19,29 @@ type SysUserDao struct {
 
 // SysUserColumns defines and stores column names for table sys_user.
 type SysUserColumns struct {
-	Id            string //
-	UserName      string // 用户名
-	Mobile        string // 中国手机不带国家代码，国际手机号格式为：国家代码-手机号
-	UserNickname  string // 用户昵称
-	Birthday      string // 生日
-	UserPassword  string // 登录密码;cmf_password加密
-	UserSalt      string // 加密盐
-	UserStatus    string // 用户状态;0:禁用,1:正常,2:未验证
-	UserEmail     string // 用户登录邮箱
-	Sex           string // 性别;0:保密,1:男,2:女
-	Avatar        string // 用户头像
-	DeptId        string // 部门id
-	Remark        string // 备注
-	IsAdmin       string // 是否后台管理员 1 是  0   否
-	Address       string // 联系地址
-	Describe      string // 描述信息
-	LastLoginIp   string // 最后登录ip
-	LastLoginTime string // 最后登录时间
-	CreatedAt     string // 创建时间
-	UpdatedAt     string // 更新时间
-	DeletedAt     string // 删除时间
+	Id            string
+	UserName      string
+	Mobile        string
+	UserNickname  string
+	Birthday      string
+	UserPassword  string
+	UserSalt      string
+	UserStatus    string
+	UserEmail     string
+	GoogleSecret  string
+	GoogleStatus  string
+	Sex           string
+	Avatar        string
+	DeptId        string
+	Remark        string
+	IsAdmin       string
+	Address       string
+	Describe      string
+	LastLoginIp   string
+	LastLoginTime string
+	CreatedAt     string
+	UpdatedAt     string
+	DeletedAt     string
 }
 
 // sysUserColumns holds the columns for table sys_user.
@@ -53,6 +55,8 @@ var sysUserColumns = SysUserColumns{
 	UserSalt:      "user_salt",
 	UserStatus:    "user_status",
 	UserEmail:     "user_email",
+	GoogleSecret:  "google_secret",
+	GoogleStatus:  "google_status",
 	Sex:           "sex",
 	Avatar:        "avatar",
 	DeptId:        "dept_id",

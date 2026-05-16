@@ -9,7 +9,9 @@ package sysUser
 
 import (
 	"context"
+	"crypto/rand"
 	"fmt"
+	"math/big"
 
 	"github.com/gogf/gf/v2/container/gset"
 	"github.com/gogf/gf/v2/database/gdb"
@@ -30,6 +32,12 @@ import (
 	"github.com/tiger1103/gfast/v3/internal/app/system/service"
 	"github.com/tiger1103/gfast/v3/library/libUtils"
 	"github.com/tiger1103/gfast/v3/library/liberr"
+)
+
+const (
+	userIdMin         = 200000000000
+	userIdRandomRange = 800000000000
+	userIdRetryLimit  = 20
 )
 
 func init() {
@@ -400,11 +408,17 @@ func (s *sSysUser) Add(ctx context.Context, req *system.UserAddReq) (err error) 
 	if err != nil {
 		return
 	}
+	var userId uint64
+	userId, err = s.generateUserId(ctx)
+	if err != nil {
+		return
+	}
 	req.UserSalt = grand.S(10)
 	req.Password = libUtils.EncryptPassword(req.Password, req.UserSalt)
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		err = g.Try(ctx, func(ctx context.Context) {
-			userId, e := dao.SysUser.Ctx(ctx).TX(tx).InsertAndGetId(do.SysUser{
+			_, e := dao.SysUser.Ctx(ctx).TX(tx).Insert(do.SysUser{
+				Id:           userId,
 				UserName:     req.UserName,
 				Mobile:       req.Mobile,
 				UserNickname: req.NickName,
@@ -418,14 +432,39 @@ func (s *sSysUser) Add(ctx context.Context, req *system.UserAddReq) (err error) 
 				IsAdmin:      req.IsAdmin,
 			})
 			liberr.ErrIsNil(ctx, e, "添加用户失败")
-			e = s.addUserRole(ctx, req.RoleIds, userId)
+			e = s.addUserRole(ctx, req.RoleIds, int64(userId))
 			liberr.ErrIsNil(ctx, e, "设置用户权限失败")
-			e = s.AddUserPost(ctx, tx, req.PostIds, userId)
+			e = s.AddUserPost(ctx, tx, req.PostIds, int64(userId))
 			liberr.ErrIsNil(ctx, e)
 		})
 		return err
 	})
 	return
+}
+
+func (s *sSysUser) generateUserId(ctx context.Context) (userId uint64, err error) {
+	for i := 0; i < userIdRetryLimit; i++ {
+		userId, err = randomUserId()
+		if err != nil {
+			return 0, err
+		}
+		count, e := dao.SysUser.Ctx(ctx).Unscoped().WherePri(userId).Count()
+		if e != nil {
+			return 0, e
+		}
+		if count == 0 {
+			return userId, nil
+		}
+	}
+	return 0, gerror.New("生成用户ID失败")
+}
+
+func randomUserId() (uint64, error) {
+	n, err := rand.Int(rand.Reader, big.NewInt(userIdRandomRange))
+	if err != nil {
+		return 0, err
+	}
+	return uint64(userIdMin + n.Int64()), nil
 }
 
 func (s *sSysUser) Edit(ctx context.Context, req *system.UserEditReq) (err error) {
@@ -604,7 +643,7 @@ func (s *sSysUser) ChangeUserStatus(ctx context.Context, req *system.UserStatusR
 }
 
 // Delete 删除用户
-func (s *sSysUser) Delete(ctx context.Context, ids []int) (err error) {
+func (s *sSysUser) Delete(ctx context.Context, ids []uint64) (err error) {
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		err = g.Try(ctx, func(ctx context.Context) {
 			_, err = dao.SysUser.Ctx(ctx).TX(tx).Where(dao.SysUser.Columns().Id+" in(?)", ids).Delete()
@@ -625,11 +664,11 @@ func (s *sSysUser) Delete(ctx context.Context, ids []int) (err error) {
 }
 
 // GetUsers 通过用户ids查询多个用户信息
-func (s *sSysUser) GetUsers(ctx context.Context, ids []int) (users []*model.SysUserSimpleRes, err error) {
+func (s *sSysUser) GetUsers(ctx context.Context, ids []uint64) (users []*model.SysUserSimpleRes, err error) {
 	if len(ids) == 0 {
 		return
 	}
-	idsSet := gset.NewIntSetFrom(ids).Slice()
+	idsSet := gset.NewFrom(gconv.Interfaces(ids)).Slice()
 	err = g.Try(ctx, func(ctx context.Context) {
 		err = dao.SysUser.Ctx(ctx).Where(dao.SysUser.Columns().Id+" in(?)", idsSet).
 			Order(dao.SysUser.Columns().Id + " ASC").Scan(&users)

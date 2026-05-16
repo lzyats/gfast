@@ -1,10 +1,3 @@
-/*
-* @desc:系统参数配置
-* @company:云南奇讯科技有限公司
-* @Author: yixiaohu
-* @Date:   2022/4/18 21:11
- */
-
 package system
 
 import (
@@ -15,9 +8,9 @@ import (
 
 type ConfigSearchReq struct {
 	g.Meta     `path:"/config/list" tags:"系统参数管理" method:"get" summary:"系统参数列表"`
-	ConfigName string `p:"configName"` //参数名称
-	ConfigKey  string `p:"configKey"`  //参数键名
-	ConfigType string `p:"configType"` //状态
+	ConfigName string `p:"configName"`
+	ConfigKey  string `p:"configKey"`
+	ConfigType string `p:"configType"`
 	commonApi.PageReq
 }
 
@@ -28,11 +21,13 @@ type ConfigSearchRes struct {
 }
 
 type ConfigReq struct {
-	ConfigName  string `p:"configName"  v:"required#参数名称不能为空"`
-	ConfigKey   string `p:"configKey"  v:"required#参数键名不能为空"`
-	ConfigValue string `p:"configValue"  v:"required#参数键值不能为空"`
-	ConfigType  int    `p:"configType"    v:"required|in:0,1#系统内置不能为空|系统内置类型只能为0或1"`
-	Remark      string `p:"remark"`
+	ConfigName      string `p:"configName" v:"required#参数名称不能为空"`
+	ConfigKey       string `p:"configKey" v:"required#参数键名不能为空"`
+	ConfigValue     string `p:"configValue" v:"required#参数值不能为空"`
+	ConfigType      int    `p:"configType" v:"required|in:0,1#系统内置不能为空|系统内置只能为0或1"`
+	ConfigValueType int    `p:"configValueType" v:"required|in:1,2,3,4,5#参数类型不能为空|参数类型不正确"`
+	ConfigOptions   string `p:"configOptions"`
+	Remark          string `p:"remark"`
 }
 
 type ConfigAddReq struct {
@@ -40,8 +35,7 @@ type ConfigAddReq struct {
 	*ConfigReq
 }
 
-type ConfigAddRes struct {
-}
+type ConfigAddRes struct{}
 
 type ConfigGetReq struct {
 	g.Meta `path:"/config/get" tags:"系统参数管理" method:"get" summary:"获取系统参数"`
@@ -59,13 +53,11 @@ type ConfigEditReq struct {
 	*ConfigReq
 }
 
-type ConfigEditRes struct {
-}
+type ConfigEditRes struct{}
 
 type ConfigDeleteReq struct {
 	g.Meta `path:"/config/delete" tags:"系统参数管理" method:"delete" summary:"删除系统参数"`
 	Ids    []int `p:"ids"`
 }
 
-type ConfigDeleteRes struct {
-}
+type ConfigDeleteRes struct{}

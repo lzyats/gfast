@@ -11,24 +11,26 @@ import (
 // SysUser is the golang structure for table sys_user.
 type SysUser struct {
 	Id            uint64      `json:"id"            description:""`
-	UserName      string      `json:"userName"      description:"用户名"`
-	Mobile        string      `json:"mobile"        description:"中国手机不带国家代码，国际手机号格式为：国家代码-手机号"`
-	UserNickname  string      `json:"userNickname"  description:"用户昵称"`
-	Birthday      int         `json:"birthday"      description:"生日"`
-	UserPassword  string      `json:"userPassword"  description:"登录密码;cmf_password加密"`
-	UserSalt      string      `json:"userSalt"      description:"加密盐"`
-	UserStatus    uint        `json:"userStatus"    description:"用户状态;0:禁用,1:正常,2:未验证"`
-	UserEmail     string      `json:"userEmail"     description:"用户登录邮箱"`
-	Sex           int         `json:"sex"           description:"性别;0:保密,1:男,2:女"`
-	Avatar        string      `json:"avatar"        description:"用户头像"`
-	DeptId        uint64      `json:"deptId"        description:"部门id"`
-	Remark        string      `json:"remark"        description:"备注"`
-	IsAdmin       int         `json:"isAdmin"       description:"是否后台管理员 1 是  0   否"`
-	Address       string      `json:"address"       description:"联系地址"`
-	Describe      string      `json:"describe"      description:"描述信息"`
-	LastLoginIp   string      `json:"lastLoginIp"   description:"最后登录ip"`
-	LastLoginTime *gtime.Time `json:"lastLoginTime" description:"最后登录时间"`
-	CreatedAt     *gtime.Time `json:"createdAt"     description:"创建时间"`
-	UpdatedAt     *gtime.Time `json:"updatedAt"     description:"更新时间"`
-	DeletedAt     *gtime.Time `json:"deletedAt"     description:"删除时间"`
+	UserName      string      `json:"userName"      description:"鐢ㄦ埛鍚?`
+	Mobile        string      `json:"mobile"        description:"涓浗鎵嬫満涓嶅甫鍥藉浠ｇ爜锛屽浗闄呮墜鏈哄彿鏍煎紡涓猴細鍥藉浠ｇ爜-鎵嬫満鍙?`
+	UserNickname  string      `json:"userNickname"  description:"鐢ㄦ埛鏄电О"`
+	Birthday      int         `json:"birthday"      description:"鐢熸棩"`
+	UserPassword  string      `json:"userPassword"  description:"鐧诲綍瀵嗙爜;cmf_password鍔犲瘑"`
+	UserSalt      string      `json:"userSalt"      description:"鍔犲瘑鐩?`
+	UserStatus    uint        `json:"userStatus"    description:"鐢ㄦ埛鐘舵€?0:绂佺敤,1:姝ｅ父,2:鏈獙璇?`
+	UserEmail     string      `json:"userEmail"     description:"鐢ㄦ埛鐧诲綍閭"`
+	GoogleSecret  string      `json:"googleSecret"  description:"Google验证码密钥"`
+	GoogleStatus  int         `json:"googleStatus"  description:"Google验证码状态;0:未绑定,1:已绑定"`
+	Sex           int         `json:"sex"           description:"鎬у埆;0:淇濆瘑,1:鐢?2:濂?`
+	Avatar        string      `json:"avatar"        description:"鐢ㄦ埛澶村儚"`
+	DeptId        uint64      `json:"deptId"        description:"閮ㄩ棬id"`
+	Remark        string      `json:"remark"        description:"澶囨敞"`
+	IsAdmin       int         `json:"isAdmin"       description:"鏄惁鍚庡彴绠＄悊鍛?1 鏄? 0   鍚?`
+	Address       string      `json:"address"       description:"鑱旂郴鍦板潃"`
+	Describe      string      `json:"describe"      description:"鎻忚堪淇℃伅"`
+	LastLoginIp   string      `json:"lastLoginIp"   description:"鏈€鍚庣櫥褰昳p"`
+	LastLoginTime *gtime.Time `json:"lastLoginTime" description:"鏈€鍚庣櫥褰曟椂闂?`
+	CreatedAt     *gtime.Time `json:"createdAt"     description:"鍒涘缓鏃堕棿"`
+	UpdatedAt     *gtime.Time `json:"updatedAt"     description:"鏇存柊鏃堕棿"`
+	DeletedAt     *gtime.Time `json:"deletedAt"     description:"鍒犻櫎鏃堕棿"`
 }

@@ -63,6 +63,21 @@
       </el-col>
     </el-form-item>
     <el-form-item class="login-animation4">
+      <el-input
+          type="text"
+          maxlength="6"
+          placeholder="Google 验证码（已绑定时必填）"
+          v-model="ruleForm.googleCode"
+          clearable
+          autocomplete="off"
+          @keyup.enter="onSignIn"
+      >
+        <template #prefix>
+          <el-icon class="el-input__icon"><ele-Key /></el-icon>
+        </template>
+      </el-input>
+    </el-form-item>
+    <el-form-item class="login-animation5">
       <el-button type="primary" class="login-content-submit" round @click="onSignIn" :loading="loading.signIn">
         <span>{{ $t('message.account.accountBtnText') }}</span>
       </el-button>
@@ -108,7 +123,8 @@ export default defineComponent({
         username: 'demo',
 				password: '123456',
         verifyCode: '',
-        verifyKey:''
+        verifyKey:'',
+        googleCode: ''
 			},
       formRules:{
         username: [
@@ -214,7 +230,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .login-content-form {
   margin-top: 20px;
-  @for $i from 1 through 4 {
+  @for $i from 1 through 5 {
     .login-animation#{$i} {
       opacity: 0;
       animation-name: error-num;

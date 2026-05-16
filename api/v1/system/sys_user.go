@@ -115,7 +115,7 @@ type UserStatusRes struct {
 
 type UserDeleteReq struct {
 	g.Meta `path:"/user/delete" tags:"用户管理" method:"delete" summary:"删除用户"`
-	Ids    []int `p:"ids"  v:"required#ids不能为空"`
+	Ids    []uint64 `p:"ids"  v:"required#ids不能为空"`
 }
 
 type UserDeleteRes struct {
@@ -124,7 +124,7 @@ type UserDeleteRes struct {
 type UserGetByIdsReq struct {
 	g.Meta `path:"/user/getUsers" tags:"用户管理" method:"get" summary:"同时获取多个用户"`
 	commonApi.Author
-	Ids []int `p:"ids" v:"required#ids不能为空"`
+	Ids []uint64 `p:"ids" v:"required#ids不能为空"`
 }
 
 type UserGetByIdsRes struct {

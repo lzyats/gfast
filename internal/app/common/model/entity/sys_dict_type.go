@@ -14,8 +14,8 @@ type SysDictType struct {
 	DictName  string      `json:"dictName"  description:"字典名称"`
 	DictType  string      `json:"dictType"  description:"字典类型"`
 	Status    uint        `json:"status"    description:"状态（0正常 1停用）"`
-	CreateBy  uint        `json:"createBy"  description:"创建者"`
-	UpdateBy  uint        `json:"updateBy"  description:"更新者"`
+	CreateBy  uint64      `json:"createBy"  description:"创建者"`
+	UpdateBy  uint64      `json:"updateBy"  description:"更新者"`
 	Remark    string      `json:"remark"    description:"备注"`
 	CreatedAt *gtime.Time `json:"createdAt" description:"创建日期"`
 	UpdatedAt *gtime.Time `json:"updatedAt" description:"修改日期"`

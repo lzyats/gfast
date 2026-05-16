@@ -48,3 +48,18 @@ func (c *personalController) ResetPwdPersonal(ctx context.Context, req *system.P
 	res, err = service.Personal().ResetPwdPersonal(ctx, req)
 	return
 }
+
+func (c *personalController) GenerateGoogleAuth(ctx context.Context, req *system.PersonalGoogleGenerateReq) (res *system.PersonalGoogleGenerateRes, err error) {
+	res, err = service.Personal().GenerateGoogleAuth(ctx, req)
+	return
+}
+
+func (c *personalController) BindGoogleAuth(ctx context.Context, req *system.PersonalGoogleBindReq) (res *system.PersonalGoogleBindRes, err error) {
+	res, err = service.Personal().BindGoogleAuth(ctx, req)
+	return
+}
+
+func (c *personalController) UnbindGoogleAuth(ctx context.Context, req *system.PersonalGoogleUnbindReq) (res *system.PersonalGoogleUnbindRes, err error) {
+	res, err = service.Personal().UnbindGoogleAuth(ctx, req)
+	return
+}

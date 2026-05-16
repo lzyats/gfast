@@ -59,3 +59,33 @@ type PersonalResetPwdReq struct {
 
 type PersonalResetPwdRes struct {
 }
+
+type PersonalGoogleGenerateReq struct {
+	g.Meta `path:"/personal/google/generate" tags:"用户管理" method:"get" summary:"生成Google验证码绑定信息"`
+	commonApi.Author
+}
+
+type PersonalGoogleGenerateRes struct {
+	g.Meta `mime:"application/json"`
+	Secret string `json:"secret"`
+	QrUrl  string `json:"qrUrl"`
+}
+
+type PersonalGoogleBindReq struct {
+	g.Meta `path:"/personal/google/bind" tags:"用户管理" method:"put" summary:"绑定Google验证码"`
+	Secret string `p:"secret" v:"required#密钥不能为空"`
+	Code   string `p:"code" v:"required#验证码不能为空"`
+	commonApi.Author
+}
+
+type PersonalGoogleBindRes struct {
+}
+
+type PersonalGoogleUnbindReq struct {
+	g.Meta `path:"/personal/google/unbind" tags:"用户管理" method:"put" summary:"解绑Google验证码"`
+	Code   string `p:"code" v:"required#验证码不能为空"`
+	commonApi.Author
+}
+
+type PersonalGoogleUnbindRes struct {
+}
