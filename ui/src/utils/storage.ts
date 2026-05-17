@@ -1,5 +1,9 @@
 import Cookies from 'js-cookie';
 
+const tokenKeyBase = import.meta.env.VITE_TOKEN_KEY || 'token';
+const tokenKeyPort = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
+const tokenKey = `${tokenKeyBase}_${tokenKeyPort}`;
+
 /**
  * window.localStorage 浏览器永久缓存
  * @method set 设置永久缓存
@@ -37,22 +41,27 @@ export const Local = {
 export const Session = {
 	// 设置临时缓存
 	set(key: string, val: any) {
-		if (key === 'token') return Cookies.set(key, val);
+		if (key === 'token') return Cookies.set(tokenKey, val);
 		window.sessionStorage.setItem(key, JSON.stringify(val));
 	},
 	// 获取临时缓存
 	get(key: string) {
-		if (key === 'token') return Cookies.get(key);
+		if (key === 'token') return Cookies.get(tokenKey);
 		let json: any = window.sessionStorage.getItem(key);
 		return JSON.parse(json);
 	},
 	// 移除临时缓存
 	remove(key: string) {
-		if (key === 'token') return Cookies.remove(key);
+		if (key === 'token') {
+			Cookies.remove(tokenKey);
+			Cookies.remove('token');
+			return;
+		}
 		window.sessionStorage.removeItem(key);
 	},
 	// 移除全部临时缓存
 	clear() {
+		Cookies.remove(tokenKey);
 		Cookies.remove('token');
 		window.sessionStorage.clear();
 	},
